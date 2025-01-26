@@ -1,0 +1,81 @@
+.header {
+    display: flex;
+    /* Flexboxを使用 */
+    align-items: center;
+    /* 縦方向で要素を中央揃え */
+    justify-content: space-between;
+    /* 要素間を均等に配置 */
+    padding: 10px 20px;
+    /* 余白を追加 */
+    background-color: #000000;
+    /* ヘッダーの背景色（お好みで） */
+}
+
+.header__inner {
+    display: flex;
+    /* 内部の要素を横並びに */
+    align-items: center;
+    /* ロゴを縦方向で中央揃え */
+}
+
+.header__logo img {
+    height: 30px;
+    /* ロゴの高さを調整 */
+}
+
+nav {
+    display: flex;
+    /* 横並びに配置 */
+    align-items: center;
+    /* 縦方向の中央揃え */
+    gap: 20px;
+    /* 各ナビゲーションボタンの間隔を設定 */
+}
+
+.nav__search {
+    display: flex;
+    /* 検索フォームの内部も横並びに */
+    align-items: center;
+    /* 縦方向の中央揃え */
+}
+
+.nav__search--input {
+    height: 30px;
+    /* 入力欄の高さ */
+    padding: 5px 10px;
+    /* 入力欄の内側の余白 */
+    border: 1px solid #ccc;
+    /* 入力欄の枠線 */
+    border-radius: 4px;
+    /* 入力欄の角を丸める */
+}
+
+.nav-button {
+    margin-left: 10px;
+    /* 各ボタンの間隔 */
+}
+
+.nav-button form {
+    display: inline-block;
+    /* フォームをインラインで配置 */
+}
+
+.nav-button button {
+    background-color: #ffffff;
+    /* ボタンの背景色 */
+    color: #000000;
+    /* ボタンの文字色 */
+    border: none;
+    /* 枠線を削除 */
+    padding: 8px 15px;
+    /* ボタン内の余白 */
+    border-radius: 4px;
+    /* ボタンの角を丸める */
+    cursor: pointer;
+    /* ボタンにポインターカーソルを適用 */
+}
+
+.nav-button button:hover {
+    background-color: #0056b3;
+    /* ボタンのホバー時の色 */
+}

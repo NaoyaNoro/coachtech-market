@@ -1,0 +1,40 @@
+.img__file {
+    height: 300px;
+    width: 300px;
+}
+
+.comment__profile-image{
+    height: 100px;
+    width: 100px;
+}
+
+.favorite-toggle input[type="checkbox"] {
+    display: none;
+}
+
+.favorite-toggle svg {
+    width: 32px;
+    height: 32px;
+    color: black;
+    transition: color 0.2s ease;
+}
+
+.favorite-toggle input[type="checkbox"]:checked+svg {
+    color: gold;
+    /* お気に入り状態の色 */
+}
+
+.comment-toggle input[type="checkbox"] {
+    display: none;
+}
+
+.comment-toggle svg{
+    width: 32px;
+    height: 32px;
+    color: black;
+    transition: color 0.2s ease;
+}
+
+.comment-toggle input[type="checkbox"]:checked+svg {
+    color:#FA8072;
+}

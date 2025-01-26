@@ -1,0 +1,9 @@
+.img__file{
+    height: 300px;
+    width: 300px;
+}
+
+.active{
+    color: red;
+    font-weight: bold;
+}
