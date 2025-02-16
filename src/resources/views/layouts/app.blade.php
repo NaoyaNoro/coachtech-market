@@ -12,46 +12,54 @@
 
 <body>
     <header class="header">
-        <div class="header__inner">
-            <a href="/" class="header__logo">
-                <h1>
-                    <img src="{{ asset('storage/img/logo.svg') }}" alt="COACHTECH Logo">
-                </h1>
-            </a>
-        </div>
-        @section('navigation')
-        <nav>
-            <div class="nav">
-                <form action="/search" class="nav__search" method="post">
+        <div class="header__top">
+            <div class="header__ttl">
+                <a href="/" class="header__logo">
+                    <h1>
+                        <img src="{{ asset('storage/img/logo.svg') }}" alt="COACHTECH Logo">
+                    </h1>
+                </a>
+            </div>
+            @section('navigation')
+            <div class="search">
+                <form action="/search" class="search__form" method="post">
                     @csrf
-                    <input type="text" class="nav__search--input" placeholder="なにをお探しですか？" name="name" value="{{ session('search_name') ?? '' }}">
-                    <button class="nav__search-button" type="submit">
+                    <input type="text" class="search__form-input" placeholder="なにをお探しですか？" name="name" value="{{ session('search_name') ?? '' }}">
+                    <button class="search__button" type="submit">
                         検索
+                    </button>
+                    <button class="search__button search__clear" type="submit" name="name" value="">
+                        クリア
                     </button>
                 </form>
             </div>
-            <div class="nav-button">
-                <form action="/logout" class="nav-logout" method="post">
-                    @csrf
-                    <button type="submit">ログアウト</button>
-                </form>
-            </div>
-            <div class="nav-button">
-                <form action="/mypage" class="nav-mypage" method="get">
-                    <button type="submit">マイページ</button>
-                </form>
-            </div>
-            <div class="nav-button">
-                <form action="/sell" class="nav-sell" method="get">
-                    <button type="submit">出品</button>
-                </form>
-            </div>
-        </nav>
-        @show
+        </div>
+
+        <div class="header__bottom">
+            <nav>
+                <div class="nav__button">
+                    <form action="/logout" class="nav__logout" method="post">
+                        @csrf
+                        <button type="submit" class="logout__button">ログアウト</button>
+                    </form>
+                </div>
+                <div class="nav__button">
+                    <a href="/mypage" class="mypage__button">
+                        マイページ
+                    </a>
+                </div>
+                <div class="nav__button">
+                    <a href="/sell" class="nav__sell">
+                        <button type="submit" class="sell__button">出品</button>
+                    </a>
+                </div>
+            </nav>
+            @show
+        </div>
     </header>
+
     <main>
         @yield('content')
-
     </main>
 </body>
 

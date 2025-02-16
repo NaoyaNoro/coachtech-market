@@ -4,17 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Profile;
+use App\Models\User;
+use App\Models\Product;
+use App\Models\Purchase;
+use App\Models\Sell;
+use App\Http\Requests\AddressRequest;
 
 class UserController extends Controller
 {
-    public function profile()
+    public function profileSetting()
     {
-        $user = auth()->user();
+        $user = User::with('profile')->find(auth()->id());
         return view('profile_setting', compact('user'));
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(AddressRequest $request)
     {
+        $profile = Profile::firstOrNew(['user_id' => auth()->id()]);
         // プロフィール画像の保存処理
         if ($request->hasFile('image')) {
             // 保存先のディレクトリを指定
@@ -25,9 +31,12 @@ class UserController extends Controller
 
             // ファイルを保存
             $request->file('image')->move($destinationPath, $filename);
-        } else {
-            // 元の画像名を保持または空にする（デフォルト）
-            $filename = null;
+
+            $profile->image = $filename;
+        }
+
+        if (!$request->hasFile('image') && $profile->exists) {
+            $filename = $profile->image;
         }
 
         // プロフィールを更新または作成
@@ -43,5 +52,34 @@ class UserController extends Controller
 
         // フラッシュメッセージを設定してリダイレクト
         return redirect('/');
+    }
+/*
+    public function profile()
+    {
+        $user =User::with('profile')->find(auth()->id());
+        $sellProducts=Product::whereHas('sells',function($query) use ($user){
+            $query->where('user_id',$user->id);
+        })->get();
+        $purchasedProducts = Product::whereHas('purchases', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->get();
+        return view('profile ', compact('user', 'sellProducts', 'purchasedProducts'));
+    }
+*/
+    public function profile(Request $request)
+    {
+        $user_id = auth()->id();
+        $user = User::with('profile')->find(auth()->id());
+
+        $mySellIds = Sell::where('user_id', $user_id)->pluck('product_id')->toArray();
+
+        $myPurchaseIds = Purchase::where('user_id', $user_id)->pluck('product_id')->toArray();
+
+        $mySellProducts = Product::whereIn('id', $mySellIds)->select('name', 'image')->get();
+
+        $myPurchaseProducts = Product::whereIn('id', $myPurchaseIds)->select('name', 'image')->get();
+
+        $activeTab=$request->query('tab','sell');
+        return view('profile ', compact('user', 'mySellProducts', 'myPurchaseProducts','activeTab'));
     }
 }

@@ -1,9 +1,139 @@
+.product__nav{
+    height:80px;
+    border-bottom: 2px solid #000000;
+}
+
+.nav__content{
+    height: 100%;
+    width: 40%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    font-size: 20px;
+}
+
+.nav__item a{
+    text-decoration: none;
+}
+
+
+
 .img__file{
     height: 300px;
     width: 300px;
+}
+
+.product__name{
+    font-size: 20px;
+    color: #000000;
+}
+
+.product-detail__link{
+    text-decoration: none;
+}
+
+.product__content{
+    margin: 30px auto;
+    max-width: 1400px;
+}
+
+
+.product__inner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    width: 95%;
+    margin: 0px auto;
 }
 
 .active{
     color: red;
     font-weight: bold;
 }
+
+/* Sold Out 商品のラベル */
+.sold-out-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+/* Sold Out の商品 */
+.product-detail__link.sold-out {
+    position: relative;
+    pointer-events: auto;
+    /* 通常通りリンク可能 */
+    text-decoration: none;
+}
+
+/* Sold Out の商品にホバー時の見た目を変える */
+.product-detail__link.sold-out:hover {
+    cursor: not-allowed;
+    /* 禁止マークのカーソル */
+    opacity: 0.7;
+    /* 半透明にする */
+}
+
+/* Sold Out 商品の画像にグレーのフィルターをかける */
+.product-detail__link.sold-out .product__img img {
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+
+@media (max-width: 1400px) {
+    .product__content {
+        max-width: 1000px;
+    }
+
+    .product__inner {
+        grid-template-columns: repeat(3, 1fr);
+        width: 95%;
+        margin: 0px auto;
+    }
+}
+
+@media (max-width: 1000px) {
+    .product__content {
+        max-width: 700px;
+    }
+
+    .product__inner {
+        grid-template-columns: repeat(2, 1fr);
+        width: 95%;
+        margin: 0px auto;
+    }
+
+    .nav__content {
+        font-size: 17px;
+        min-width: none;
+        width: 70%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 700px) {
+    .product__content {
+        max-width: 400px;
+    }
+
+    .product__inner {
+        grid-template-columns: repeat(1, 1fr);
+        width: 75%;
+        margin: 0px auto;
+    }
+
+    .nav__content {
+        font-size: 15px;
+        min-width: none;
+        width: 70%;
+        justify-content: center;
+    }
+}
+

@@ -80,9 +80,9 @@
                 <button class="form__button-submit" type="submit">登録する</button>
             </div>
         </form>
-        <div class="login__link">
-            <a class="login__button-submit" href="/login">ログインの方はこちら</a>
-        </div>
+    </div>
+    <div class="login__link">
+        <a class="login__button" href="/login">ログインの方はこちら</a>
     </div>
 </div>
 @endsection

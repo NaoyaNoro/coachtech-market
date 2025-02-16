@@ -28,12 +28,12 @@ class Category_ProductTableSeeder extends Seeder
                 'category_id' => 2
             ],
             [
-                'product_id' => 3,
+                'product_id' => 2,
                 'category_id' => 2
             ]
         ];
         foreach($arrays as $array){
-            DB::table('category_product')->insert($array);
+            DB::table('category_products')->insert($array);
         }
     }
 }

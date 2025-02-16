@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
-class StatusTableSeeder extends Seeder
+class StatusesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class StatusTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('status')->insert([
+        DB::table('statuses')->insert([
             ['status' => '良好'],
             ['status' => '目立った傷や汚れなし'],
             ['status' => 'やや傷や汚れあり'],

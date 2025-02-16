@@ -45,7 +45,7 @@ class FortifyServiceProvider extends ServiceProvider
 
         /*
         Fortify::authenticateUsing(function (\Illuminate\Http\Request $request) {
-            Log::info('Custom authenticateUsing is called'); 
+            Log::info('Custom authenticateUsing is called');
             $action = app(\App\Actions\Fortify\AuthenticateUser::class);
 
             return $action->authenticate($request->only(['email', 'password', 'remember']));

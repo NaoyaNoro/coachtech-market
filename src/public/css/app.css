@@ -1,81 +1,188 @@
 .header {
     display: flex;
-    /* Flexboxを使用 */
     align-items: center;
-    /* 縦方向で要素を中央揃え */
     justify-content: space-between;
-    /* 要素間を均等に配置 */
     padding: 10px 20px;
-    /* 余白を追加 */
     background-color: #000000;
-    /* ヘッダーの背景色（お好みで） */
+    line-height: 0;
+    height: 80px;
 }
 
-.header__inner {
+.header__top {
     display: flex;
-    /* 内部の要素を横並びに */
+    align-items:center;
+    justify-content: space-between;
+    width: 70%;
+    padding: 20px 0;
+}
+
+.search{
+    display: flex;
     align-items: center;
-    /* ロゴを縦方向で中央揃え */
 }
 
 .header__logo img {
-    height: 30px;
-    /* ロゴの高さを調整 */
+    max-width: 370px;
+    height: auto;
 }
+
+.search__form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+}
+
+.search__form-input{
+    height: 30px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    margin-right: 2px;
+}
+
+.search__button{
+    font-size: 10px;
+    padding: 2px 5px;
+    background-color: #FFFFFF;
+    border-radius: 3px;
+    min-width: 50px;
+}
+
+
 
 nav {
     display: flex;
-    /* 横並びに配置 */
+    justify-content: space-between;
     align-items: center;
-    /* 縦方向の中央揃え */
     gap: 20px;
-    /* 各ナビゲーションボタンの間隔を設定 */
 }
 
-.nav__search {
-    display: flex;
-    /* 検索フォームの内部も横並びに */
-    align-items: center;
-    /* 縦方向の中央揃え */
+.nav__button {
+    min-width: 80px;
 }
 
-.nav__search--input {
-    height: 30px;
-    /* 入力欄の高さ */
-    padding: 5px 10px;
-    /* 入力欄の内側の余白 */
-    border: 1px solid #ccc;
-    /* 入力欄の枠線 */
-    border-radius: 4px;
-    /* 入力欄の角を丸める */
-}
-
-.nav-button {
-    margin-left: 10px;
-    /* 各ボタンの間隔 */
-}
-
-.nav-button form {
-    display: inline-block;
-    /* フォームをインラインで配置 */
-}
-
-.nav-button button {
-    background-color: #ffffff;
-    /* ボタンの背景色 */
-    color: #000000;
-    /* ボタンの文字色 */
-    border: none;
-    /* 枠線を削除 */
-    padding: 8px 15px;
-    /* ボタン内の余白 */
-    border-radius: 4px;
-    /* ボタンの角を丸める */
+.logout__button{
+    color: white;
+    background-color: #000000;
+    font-size: 20px;
     cursor: pointer;
-    /* ボタンにポインターカーソルを適用 */
+    border: none;
 }
 
-.nav-button button:hover {
+.mypage__button{
+    color: white;
+    background-color: #000000;
+    text-decoration: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.sell__button{
+    font-size: 20px;
+    padding: 5px 10px;
+    background-color: #FFFFFF;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.sell__button:hover {
     background-color: #0056b3;
-    /* ボタンのホバー時の色 */
+}
+
+@media (max-width: 1250px) {
+    .header {
+        display: flex;
+        flex-direction: column;
+        padding:0 20px;
+        height: 110px;
+        gap: 0;
+        line-height: 0;
+    }
+
+    .header__top {
+        width: 100%;
+        padding: 0;
+    }
+
+    .header__logo img {
+        max-width: 200px;
+    }
+
+    .search__form {
+        justify-content: flex-end;
+        margin-left: -50px;
+    }
+
+    .search__form-input {
+        width: 70%;
+        margin-right: 2px;
+        height: 25px;
+    }
+
+    .header__bottom{
+        margin-bottom: 15px;
+    }
+
+    .logout__button {
+        font-size: 15px;
+    }
+
+    .mypage__button {
+        font-size: 15px;
+    }
+
+    .sell__button{
+        font-size: 15px;
+    }
+
+    nav{
+        gap: 100px;
+    }
+}
+
+
+@media (max-width: 759px) {
+    .header__top {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 5px;
+    }
+
+    .header__ttl{
+        padding: 0;
+    }
+
+    .header__logo img {
+        max-width: 150px;
+        height: auto;
+    }
+
+    .search{
+        margin-top: -10px;
+    }
+
+    .search__form{
+        justify-content: center;
+    }
+
+    .search__form-input {
+        width: 60%;
+        margin-right: 2px;
+        height: 20px;
+    }
+
+    .logout__button {
+        font-size: 12px;
+    }
+
+    .mypage__button {
+        font-size: 12px;
+    }
+
+    .sell__button {
+        font-size: 12px;
+        padding: 3px 5px;
+    }
 }

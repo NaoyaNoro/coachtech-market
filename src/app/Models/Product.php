@@ -16,16 +16,23 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class,'category_product');
-    }
-
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
+        return $this->belongsToMany(Category::class,'category_products');
     }
 
     public function comments()
     {
         return $this->belongsToMany(User::class, 'comments');
     }
+
+    public function sells()
+    {
+        return $this->hasOne(Sell::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasOne(Purchase::class);
+    }
+
+    protected $fillable = ['name', 'brand', 'price', 'description', 'image', 'status', 'color'];
 }

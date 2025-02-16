@@ -19,23 +19,19 @@ class ProductsTableSeeder extends Seeder
                 'name'=>'腕時計',
                 'brand'=>'Armani',
                 'price'=>'15000',
-                'good'=>'3',
-                'comment'=>'2',
                 'description'=> 'スタイリッシュなデザインのメンズ腕時計',
                 'image'=>'Armani+Mens+Clock.jpg',
-                'category_id'=>'5',
-                'status_id'=>'1',
+                'status'=> 'やや傷や汚れあり',
+                'color'=>'黒'
             ],
             [
                 'name' => 'HDD',
                 'brand' => 'NEC',
                 'price' => '5000',
-                'good' => '3',
-                'comment' => '2',
                 'description' => '高速で信頼性の高いハードディスク',
                 'image' => 'HDD+Hard+Disk.jpg',
-                'category_id' => '2',
-                'status_id' => '2',
+                'status' => '良好',
+                'color'=>''
             ],
         ];
         foreach ($products as $product) {

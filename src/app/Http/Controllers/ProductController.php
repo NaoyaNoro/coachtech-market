@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\MyList;
 use App\Models\Comment;
+use App\Models\Purchase;
+use App\Models\Sell;
+use App\Http\Requests\CommentRequest;
 
 
 
@@ -26,6 +29,7 @@ class ProductController extends Controller
         return redirect('/'); // トップページで検索結果を表示
     }
 
+    /*
     public function index(Request $request)
     {
         $page = $request->query('page', null);
@@ -37,18 +41,7 @@ class ProductController extends Controller
 
         if ($page === 'mylist') {
             if (auth()->check()) {
-                // マイリスト取得 (検索条件に一致する商品で絞り込む)
-                /*
-                $mylistProducts = MyList::where('user_id', auth()->id())
-                ->with('product')
-                ->get()
-                ->pluck('product'); // マイリストの商品コレクション
-
-                $searchResults = Product::where('name', 'LIKE', "%{$search_name}%")->get(); // 検索結果の商品コレクション
-
-                // マイリストに登録されている商品と検索結果を連結（共通する商品を抽出）
-                $products = $mylistProducts->intersect($searchResults);
-                */
+                
 
                 $products = Product::whereHas('mylistBy', function ($query) {
                     $query->where('user_id', auth()->id());
@@ -68,12 +61,54 @@ class ProductController extends Controller
             // 通常のおすすめ商品を表示
             $products = Product::select('id','name', 'image')->get();
         }
-        return view('index', compact('products', 'page', 'search_name'));
+        $soldOutProductIDs=Purchase::pluck('product_id')->toArray();
+        return view('index', compact('products', 'page', 'search_name', 'soldOutProductIDs'));
+    }
+        */
+
+    public function index(Request $request)
+    {
+        $page = $request->query('page', null);
+
+        // 検索条件をセッションから取得
+        $search_name = session('search_name', null);
+        $search_results = session('search_results', collect());
+
+        // 自分が出品した商品のIDを取得
+        $user_id = auth()->id();
+        $myProductIds = Sell::where('user_id', $user_id)->pluck('product_id')->toArray();
+
+        if ($page === 'mylist') {
+            if (auth()->check()) {
+                $products = Product::whereHas('mylistBy', function ($query) {
+                    $query->where('user_id', auth()->id());
+                })
+                    ->when($search_name, function ($query, $search_name) {
+                        $query->where('name', 'LIKE', "%{$search_name}%");
+                    })
+                    ->get();
+            } else {
+                $products = collect();
+            }
+        } elseif ($search_name) {
+            // 検索結果を表示（検索結果にも自分が出品した商品を含めない）
+            $products = $search_results->whereNotIn('id', $myProductIds);
+        } else {
+            // 通常のおすすめ商品を表示（自分が出品した商品を除外）
+            $products = Product::whereNotIn('id', $myProductIds)
+                ->select('id', 'name', 'image')
+                ->get();
+        }
+
+        // 売り切れた商品のIDを取得
+        $soldOutProductIDs = Purchase::pluck('product_id')->toArray();
+
+        return view('index', compact('products', 'page', 'search_name', 'soldOutProductIDs'));
     }
 
     public function detail(Request $request)
     {
-        $product=Product::with(['categories','status'])->find($request->item_id);
+        $product=Product::with(['categories'])->find($request->item_id);
         $comments=Comment::where('product_id', $request->item_id)->with(['profile','users'])->get();
         $mylists=MyList::where('product_id', $request->item_id)->get();
 
@@ -89,15 +124,8 @@ class ProductController extends Controller
         return view('detail',compact('product','comments','mylists','isFavorited', 'isCommented'));
     }
 
-    
-    public function comment(Request $request)
+    public function comment(CommentRequest $request)
     {
-        $request->validate([
-            'comment' => 'required|max:255',
-        ], [
-            'comment.required' => 'コメントを入力してください',
-            'comment.max' => '255文字以内で入力してください',
-        ]);
         $user_id=auth()->id();
         $comment =[
             'user_id'=>$user_id,
@@ -108,8 +136,6 @@ class ProductController extends Controller
         return redirect('/item/' . $comment['product_id']);
     }
 
-
-    
     public function good(Request $request)
     {
         $user_id = auth()->id();

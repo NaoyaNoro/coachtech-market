@@ -1,0 +1,163 @@
+.purchase__content{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.purchase__inner{
+    margin: 30px auto;
+    width: 95%;
+    display: flex;
+    gap: 5%;
+}
+
+.purchase__left{
+    width: 60%;
+}
+
+.purchase__right{
+    width: 40%;
+}
+
+.purchase__group--product{
+    display: flex;
+    gap: 10%;
+    border-bottom: 1px #000000 solid;
+    padding-bottom: 30px;
+}
+
+.img__file {
+    height: 200px;
+    width: 200px;
+}
+
+.purchase__detail{
+    font-size: 27px;
+}
+
+.purchase__detail h2 {
+    font-size: inherit;
+}
+
+.purchase__ttl h3{
+    font-size: 20px;
+}
+
+.purchase__method--select{
+    width: 250px;
+    height: 30px;
+}
+
+.purchase__group{
+    padding: 10px 0px 30px 20px;
+    border-bottom: 1px #000000 solid;
+}
+
+.purchase__right .purchase__group:last-child{
+    border: none;
+}
+
+.address__change{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form__button{
+    font-size: 20px;
+    color: #0073CC;
+    border: none;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.address__content{
+    font-size: 20px;
+}
+
+.confirm__table{
+    width: 100%;
+    height: 200px;
+}
+
+.confirm__table tr{
+    border: #000000 solid 1px;
+}
+
+.confirm__table td{
+    text-align: center;
+}
+
+.purchase__method--confirm{
+    border: none;
+    text-align: center;
+}
+
+.purchase__button--submit{
+    width: 100%;
+    background-color: #FF5555;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    border: none;
+    margin-top: 40px;
+}
+
+@media (max-width: 1100px) {
+    .purchase__content {
+        max-width: 800px;
+    }
+
+    .confirm__table {
+        height: 150px;
+    }
+}
+
+@media (max-width: 750px) {
+    .purchase__content {
+        max-width: 550px;
+    }
+
+    .purchase__inner {
+        width: 100%;
+        }
+
+    .img__file {
+        height: 100px;
+        width: 100px;
+    }
+
+    .purchase__detail {
+        font-size: 15px;
+    }
+
+    .purchase__ttl h3 {
+        font-size: 14px;
+    }
+
+    .address__content {
+        font-size: 14px;
+    }
+
+    .confirm__table {
+        table-layout: fixed;
+        font-size: 12px;
+    }
+
+    .purchase__method--confirm{
+        font-size: 10px;
+        max-width: 100%;
+
+    }
+
+    .purchase__button--submit{
+        font-size: 14px;
+    }
+
+    .form__button {
+        font-size: 14px;
+    }
+}
+
+
+

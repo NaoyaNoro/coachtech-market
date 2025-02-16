@@ -18,17 +18,12 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('brand');
             $table->integer('price');
-            $table->integer('good');
-            $table->integer('comment');
             $table->text('description');
             $table->string('image');
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('status_id');
+            $table->string('status');;
+            $table->string('color')->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
-            
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreign('status_id')->references('id')->on('status')->onDelete('cascade');
 
         });
     }

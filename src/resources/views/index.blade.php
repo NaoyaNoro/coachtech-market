@@ -26,10 +26,13 @@
         @else
 
         @foreach($products as $product)
-        <a href="/item/{{ $product->id }}" class="product-detail__link">
+        <a href="/item/{{ $product->id }}" class="product-detail__link {{ in_array($product->id, $soldOutProductIDs) ? 'sold-out' : '' }}">
             <div class="product__group">
                 <div class="product__img">
                     <img src="{{ asset('storage/img/product/' . $product->image) }}" alt="{{ $product->name }}" class="img__file">
+                    @if(in_array($product->id, $soldOutProductIDs))
+                    <div class="sold-out-label">Sold Out</div>
+                    @endif
                 </div>
                 <div class="product__name">
                     <p>{{ $product->name }}</p>

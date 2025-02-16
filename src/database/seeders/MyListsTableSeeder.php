@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 
-class MyListTableSeeder extends Seeder
+class MyListsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -22,10 +22,10 @@ class MyListTableSeeder extends Seeder
             ],
             [
                 'user_id' => 1,
-                'product_id' => 3
+                'product_id' => 2
             ],
             [
-                'user_id' => 19,
+                'user_id' => 2,
                 'product_id' => 1
             ],
         ];

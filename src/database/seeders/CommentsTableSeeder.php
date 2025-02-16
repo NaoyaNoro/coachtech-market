@@ -26,11 +26,11 @@ class CommentsTableSeeder extends Seeder
             ],
             [
                 'product_id' => 1,
-                'user_id' => 19,
+                'user_id' => 2,
                 'comment' => 'これはひどい。二度と買わない'
             ],
             [
-                'product_id' => 3,
+                'product_id' => 2,
                 'user_id' => 1,
                 'comment' => 'これはすごい。めっちゃ早く動くね。'
             ],
