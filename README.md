@@ -12,18 +12,20 @@
 3. .env.exampleファイルから.envを作成 <br>`cp .env.example .env`
 4. 環境変数を変更<br>
    ```
+   
    DB_HOST=mysql
    DB_PORT=3306 
    DB_DATABASE=laravel_db
    DB_USERNAME=laravel_user
    DB_PASSWORD=laravel_pass
+   
    ```
 5. STRIPEの設定
     環境変数を変更<br>
-   ```
-STRIPE_KEY=pk_test_51Qm2h2E0GbUpr9cgeUYEaLTesvxA17yk9lkDd0UpxJsdAJp73bzryNHj6vjvr8kLcCPZ1VmrAJYO3IljytbdMbgI00kaLeaofN
+   ```　STRIPE_KEY=pk_test_51Qm2h2E0GbUpr9cgeUYEaLTesvxA17yk9lkDd0UpxJsdAJp73bzryNHj6vjvr8kLcCPZ1VmrAJYO3IljytbdMbgI00kaLeaofN
 STRIPE_SECRET=sk_test_51Qm2h2E0GbUpr9cgIHuUan7UsSwNP77TgtKzTOCjE2hz3VorikQDhGddUsomnzSsQ3rFXNLnrV3DOPQOACc5KjH400YIzTcB1e
-   ```
+　　```
+
 5. アプリケーションキーの作成<br> `php artisan key:generate`
 6. マイグレーションの実行<br> `php artisan migrate`
 7. シーディングの実行<br> `php artisan db:seed`
