@@ -12,24 +12,54 @@
 3. .env.exampleファイルから.envを作成 <br>`cp .env.example .env`
 4. 環境変数を変更<br>
    ```
-   
    DB_HOST=mysql
    DB_PORT=3306 
    DB_DATABASE=laravel_db
    DB_USERNAME=laravel_user
    DB_PASSWORD=laravel_pass
-   
    ```
-5. STRIPEの設定
-    環境変数を変更<br>
-   ```　STRIPE_KEY=pk_test_51Qm2h2E0GbUpr9cgeUYEaLTesvxA17yk9lkDd0UpxJsdAJp73bzryNHj6vjvr8kLcCPZ1VmrAJYO3IljytbdMbgI00kaLeaofN
-STRIPE_SECRET=sk_test_51Qm2h2E0GbUpr9cgIHuUan7UsSwNP77TgtKzTOCjE2hz3VorikQDhGddUsomnzSsQ3rFXNLnrV3DOPQOACc5KjH400YIzTcB1e
-　　```
-
 5. アプリケーションキーの作成<br> `php artisan key:generate`
 6. マイグレーションの実行<br> `php artisan migrate`
 7. シーディングの実行<br> `php artisan db:seed`
 8. 保存した画像が正しく表示できない場合は，strageに保存したデータを再登録する<br> `php artisan storage:link`
+
+## Stripeの設定
+1. APIキーを取得する<br>
+   i. [Stripe公式サイト](https://dashboard.stripe.com/register)でアカウントを作成<br>
+   ii.「開発者」 → 「APIキー」から `公開可能キー` (`STRIPE_KEY`) と `シークレットキー` (`STRIPE_SECRET`) をコピー
+2. 取得したSTRIPEのAPIキーを`.env`に追加<br>
+   ```
+   STRIPE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxxxxxx
+   STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxxxxxx
+   ```
+3. `config/services.php`にStripeの設定を追加
+   ```
+   'stripe' => [
+    'key' => env('STRIPE_KEY'),
+    'secret' => env('STRIPE_SECRET'),
+    ],
+   ```
+4. Stripeのテストカードで支払い
+   ```
+   カード番号: 4242 4242 4242 4242
+   有効期限: 任意の未来日（例: 12/34）
+   CVC: 123
+   ```
+## MailHogの設定
+1. 環境変数の設定
+   ```
+   MAIL_MAILER=smtp
+   MAIL_HOST=host.docker.internal
+   MAIL_PORT=1025
+   MAIL_USERNAME=""
+   MAIL_PASSWORD=""
+   MAIL_ENCRYPTION=null
+   MAIL_FROM_ADDRESS=no-reply@example.com
+   MAIL_FROM_NAME="${APP_NAME}"
+   ```
+
+
+   
 
 ## 使用技術
 * php 7.4.9
