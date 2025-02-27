@@ -57,7 +57,7 @@
    MAIL_FROM_ADDRESS=no-reply@example.com
    MAIL_FROM_NAME="${APP_NAME}"
    ```
-##単体テストの設定
+## 単体テストの設定
 1. MySQLコンテナ内にログインする <br>`docker-compose exec mysql bash`
 2. rootユーザーでログインする。<br>`mysql -u root -p`
 3. demo_testデータベースの新規作成を行う。
@@ -65,6 +65,58 @@
    > CREATE DATABASE demo_test;
    > SHOW DATABASES;
    ```
+4. databases.phpのconnectionsに以下を追加<br>
+   ```
+   'mysql_test' => [
+            'driver' => 'mysql',<br>
+            'url' => env('DATABASE_URL'),<br>
+            'host' => env('DB_HOST', '127.0.0.1'),<br>
+            'port' => env('DB_PORT', '3306'),
+            'database' => 'demo_test',
+            'username' => 'root',
+            'password' => 'root',
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+             PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+    ```
+5. .envファイルから.env.testingを作成<br>`cp .env .env.testing`
+6. .env.testingを以下のように設定
+   ```
+   APP_ENV=testing
+   DB_CONNECTION=mysql
+   DB_DATABASE=demo_test
+   DB_USERNAME=root
+   DB_PASSWORD=root
+   ```
+7. 設定キャッシュのクリアと再生成
+   ```
+   php artisan config:clear
+   php artisan config:cache
+   ```
+8. テスト用データベースdemo_testのマイグレーション <br>`php artisan migrate --env=testing
+`
+9. phpunit.xmlのphp箇所に以下を追加<br>
+　　
+      ```
+      <env name="APP_ENV" value="testing"/>
+      <env name="DB_CONNECTION" value="mysql_test"/>
+      <env name="DB_DATABASE" value="demo_test"/>
+      <env name="SESSION_DRIVER" value="array"/>
+      ```
+
+　　
+
+
+
+
 
 
    
