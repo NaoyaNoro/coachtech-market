@@ -57,6 +57,17 @@
    MAIL_FROM_ADDRESS=no-reply@example.com
    MAIL_FROM_NAME="${APP_NAME}"
    ```
+##単体テストの設定
+1. MySQLコンテナ内にログインする <br>`docker-compose exec mysql bash`
+2. rootユーザーでログインする。<br>`mysql -u root -p`
+3. demo_testデータベースの新規作成を行う。
+   ```
+   > CREATE DATABASE demo_test;
+   > SHOW DATABASES;
+   ```
+
+
+   
 
 
    
