@@ -101,9 +101,7 @@
    php artisan config:clear
    php artisan config:cache
    ```
-8. テスト用データベースdemo_testのマイグレーション <br>`php artisan migrate --env=testing
-`
-9. phpunit.xmlのphp箇所に以下を追加<br>
+8. phpunit.xmlのphp箇所に以下を追加<br>
 　　
       ```
       <env name="APP_ENV" value="testing"/>
@@ -111,6 +109,9 @@
       <env name="DB_DATABASE" value="demo_test"/>
       <env name="SESSION_DRIVER" value="array"/>
       ```
+9. テスト用データベースdemo_testのマイグレーション <br>`php artisan migrate --env=testing
+`
+
 
 　　
 
