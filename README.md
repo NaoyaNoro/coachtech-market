@@ -65,7 +65,12 @@
    > CREATE DATABASE demo_test;
    > SHOW DATABASES;
    ```
-4. databases.phpのconnectionsに以下を追加<br>
+4. rootにdemo_testへの権限を与える
+   ```
+   GRANT ALL PRIVILEGES ON demo_test.* TO 'laravel_user'@'%';
+   FLUSH PRIVILEGES;
+   ```
+5. databases.phpのconnectionsに以下を追加<br>
    ```
    'mysql_test' => [
             'driver' => 'mysql',
@@ -87,8 +92,8 @@
             ]) : [],
         ],
     ```
-5. .envファイルから.env.testingを作成<br>`cp .env .env.testing`
-6. .env.testingを以下のように設定
+6. .envファイルから.env.testingを作成<br>`cp .env .env.testing`
+7. .env.testingを以下のように設定
    ```
    APP_ENV=testing
    DB_CONNECTION=mysql
@@ -96,12 +101,12 @@
    DB_USERNAME=root
    DB_PASSWORD=root
    ```
-7. 設定キャッシュのクリアと再生成
+8. 設定キャッシュのクリアと再生成
    ```
    php artisan config:clear
    php artisan config:cache
    ```
-8. phpunit.xmlのphp箇所に以下を追加<br>
+9. phpunit.xmlのphp箇所に以下を追加<br>
 　　
       ```
       <env name="APP_ENV" value="testing"/>
@@ -109,7 +114,7 @@
       <env name="DB_DATABASE" value="demo_test"/>
       <env name="SESSION_DRIVER" value="array"/>
       ```
-9. テスト用データベースdemo_testのマイグレーション <br>`php artisan migrate --env=testing
+10. テスト用データベースdemo_testのマイグレーション <br>`php artisan migrate --env=testing
 `
 
 
