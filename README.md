@@ -68,9 +68,9 @@
 4. databases.phpのconnectionsに以下を追加<br>
    ```
    'mysql_test' => [
-            'driver' => 'mysql',<br>
-            'url' => env('DATABASE_URL'),<br>
-            'host' => env('DB_HOST', '127.0.0.1'),<br>
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => 'demo_test',
             'username' => 'root',
