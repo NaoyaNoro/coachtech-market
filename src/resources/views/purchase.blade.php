@@ -32,6 +32,9 @@
                         <option value="カード支払い">カード支払い</option>
                     </select>
                 </div>
+                @error('purchase__method')
+                <span class="error">{{$message}}</span>
+                @enderror
             </div>
             <div class="purchase__group">
                 <div class="address__change">
@@ -73,7 +76,6 @@
                         <tr>
                             <th>支払い方法</th>
                             <td id="selectedPaymentMethod">
-                                <!-- <input type="text" id="paymentMethodInput" name="purchase__method" class="purchase__method--confirm" value="" readonly> -->
                                 <input id="paymentMethodInput" name="purchase__method" class="purchase__method--confirm" readonly></input>
                             </td>
                         </tr>
@@ -81,9 +83,6 @@
                     <button type="submit" class="purchase__button--submit">
                         購入する
                     </button>
-                    @error('purchase__method')
-                    <span class="error">{{$message}}</span>
-                    @enderror
                 </form>
             </div>
         </div>

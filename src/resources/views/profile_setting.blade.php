@@ -20,7 +20,9 @@
                 </label>
                 <input type="file" name="image" id="image" class="profile-image-input" accept="image/*">
             </div>
-
+            @error('image')
+            <p class="error">{{$message}}</p>
+            @enderror
             <div class="form__item">
                 <div class="form__item-name">
                     <p class="form__label">

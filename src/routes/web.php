@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\SellController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 
 
@@ -19,41 +21,54 @@ use App\Http\Controllers\SellController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', [ProductController::class, 'index']);
-Route::post('/search',[ProductController::class, 'search']);
-
+Route::post('/search', [ProductController::class, 'search']);
 Route::get('/item/{item_id}', [ProductController::class, 'detail']);
 
-Route::middleware('auth')->group(function(){
+// 認証必須 (ただしメール認証不要のルート)
+Route::middleware('auth')->group(function () {
+    // メール認証待ちページ (未認証でもアクセス可能)
+    Route::get('/email/verify', function () {
+        return view('auth.verify_email');
+    })->name('verification.notice');
+
+    // メール認証処理
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect('/mypage/profile'); // 認証後にプロフィール設定画面へ
+    })->middleware(['signed'])->name('verification.verify');
+
+    // 認証メールの再送信
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', '確認メールを再送信しました。');
+    })->middleware(['throttle:6,1'])->name('verification.send');
+});
+
+//  認証 & メール認証済みユーザーのみアクセス可能
+Route::middleware(['auth', 'verified'])->group(function () {
+    //  プロフィール関連
     Route::get('/mypage/profile', [UserController::class, 'profileSetting']);
     Route::post('/mypage/profile', [UserController::class, 'updateProfile']);
     Route::get('/mypage', [UserController::class, 'profile']);
+
+    //  商品関連
     Route::post('/comment', [ProductController::class, 'comment']);
     Route::post('/good_button', [ProductController::class, 'good']);
-});
 
-Route::middleware('auth')->group(function(){
+    //  購入関連
     Route::get('/purchase/{item_id}', [PurchaseController::class, 'purchase']);
-    Route::post('/purchase/address/{user_id}', [PurchaseController::class, 'address']);
     Route::post('/change/address', [PurchaseController::class, 'change_address']);
+    Route::post('/purchase/address/{user_id}', [PurchaseController::class, 'address']);
+    Route::get('/purchase/address/{user_id}', [PurchaseController::class, 'redirect_change_address']);
 
-});
-
-Route::middleware('auth')->group(function(){
-    Route::post('/checkout',[StripePaymentController::class,'checkout']);
-    Route::get('/payment/success',[StripePaymentController::class,'success']);
+    //  支払い関連
+    Route::post('/checkout', [StripePaymentController::class, 'checkout']);
+    Route::get('/payment/success', [StripePaymentController::class, 'success']);
     Route::get('/payment/cancel', [StripePaymentController::class, 'cancel']);
-});
 
-Route::middleware('auth')->group(function(){
-    Route::get('/sell',[SellController::class,'sell']);
+    //  出品関連
+    Route::get('/sell', [SellController::class, 'sell']);
     Route::post('/sell', [SellController::class, 'put_up']);
 });
-
-
-
-
-
-
 

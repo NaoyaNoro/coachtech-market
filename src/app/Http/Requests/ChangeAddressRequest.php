@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AddressRequest extends FormRequest
+class ChangeAddressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,24 +26,27 @@ class AddressRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => 'nullable|mimes:png,jpeg',
-            'name'=>'required',
             'post_code' =>
             ['required', 'regex:/^\d{3}-\d{4}$/'],
-            'address'=>'required',
-            'building'=>'required'
+            'address' => 'required',
+            'building' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'image.mimes' => '「.png」または「.jpeg」形式でアップロードしてください',
-            'name.required'=>'お名前を入力してください',
             'post_code.required' => '郵便番号を入力してください',
             'post_code.regex' => '郵便番号はハイフンを含めた8文字の形式で入力してください',
             'address.required' => '住所を入力してください',
-            'building.required'=>'建物名を入力してください'
+            'building.required' => '建物名を入力してください'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            redirect()->back()->withErrors($validator)->withInput()
+        );
     }
 }

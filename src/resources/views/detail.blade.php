@@ -7,8 +7,11 @@
 @section('content')
 <div class="detail__content">
     <div class="detail__inner">
-        <div class="detail__img">
+        <div class="detail__img {{in_array($product->id,$soldOutProductIDs)?'sold-out':''}}">
             <img src="{{ asset('storage/img/product/' . $product->image) }}" alt="" class="img__file">
+            @if(in_array($product->id, $soldOutProductIDs))
+            <div class="sold-out-label">Sold Out</div>
+            @endif
         </div>
         <div class="detail__text">
             <div class="detail__item">
@@ -69,9 +72,15 @@
             </div>
 
             <div class="detail-form">
+                @if(in_array($product->id, $soldOutProductIDs))
+                <a href="javascript:void(0);" class="detail-form__link {{in_array($product->id,$soldOutProductIDs)?'sold-out':''}}">
+                    在庫切れ
+                </a>
+                @else
                 <a href="/purchase/{{ $product->id }}" class="detail-form__link">
                     購入手続きへ
                 </a>
+                @endif
             </div>
             <div class="detail__info">
                 <h3 class="info__ttl">
@@ -145,14 +154,14 @@
                         @csrf
                         <textarea name="comment" class="comment-form__input" id="comment"></textarea>
                         <input type="hidden" name="product_id" value="{{ $product->id }}" id="product_id">
-                        <button class="comment-form__button" type="submit" id="submit-comment">
-                            コメントを送信する
-                        </button>
                         <div class="error">
                             @error('comment')
                             <span class="error">{{$message}}</span>
                             @enderror
                         </div>
+                        <button class="comment-form__button" type="submit" id="submit-comment">
+                            コメントを送信する
+                        </button>
                     </form>
                 </div>
             </div>

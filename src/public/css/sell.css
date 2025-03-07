@@ -119,6 +119,12 @@
     margin-top: 40px;
 }
 
+.error {
+    color: red;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
 @media (max-width: 700px) {
     .sell__content {
         max-width: 400px;

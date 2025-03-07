@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/success.css') }}">
+<link rel="stylesheet" href="{{ asset('css/thanks.css') }}">
 @endsection
 
 @section('content')
@@ -11,9 +11,8 @@
             <h2>お買い上げありがとうございました</h2>
         </div>
         <div class="thanks__link">
-            <a href="/" class="home__link">Home</a>
+            <a href="/" class="home__link">HOME</a>
         </div>
-
     </div>
 </div>
 @endsection

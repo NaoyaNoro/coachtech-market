@@ -121,7 +121,9 @@ class ProductController extends Controller
         ->where('product_id', $product->id)
         ->exists();
 
-        return view('detail',compact('product','comments','mylists','isFavorited', 'isCommented'));
+        $soldOutProductIDs = Purchase::pluck('product_id')->toArray();
+
+        return view('detail',compact('product','comments','mylists','isFavorited', 'isCommented','soldOutProductIDs'));
     }
 
     public function comment(CommentRequest $request)

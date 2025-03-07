@@ -84,6 +84,12 @@
     background-color: #e04a4a;
 }
 
+.error {
+    color: red;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
 @media (max-width: 850px) {
     .profile__form {
         width: 90%;

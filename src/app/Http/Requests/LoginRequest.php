@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+use Illuminate\Validation\Validator;
+use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
+
+class LoginRequest extends FortifyLoginRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -37,5 +39,18 @@ class LoginRequest extends FormRequest
             'password.required' => 'パスワードを入力してください',
             'password.min' => 'パスワードは8文字以上で入力してください',
         ];
+    }
+
+    protected function withValidator(Validator $validator)
+    {
+        $validator->after(function ($validator) {
+            if (!$validator->errors()->has('email') && !$validator->errors()->has('password')) {
+                $user = \App\Models\User::where('email', $this->input('email'))->first();
+
+                if (!$user) {
+                    $validator->errors()->add('email', 'ログイン情報が登録されていません。');
+                }
+            }
+        });
     }
 }
