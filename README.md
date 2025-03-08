@@ -1,7 +1,7 @@
 # coachtechフリマ
 
 ## Dockerビルド
-1. リポジトリの複製<br>`git clone git@github.com:NaoyaNoro/mogitate.git`
+1. リポジトリの複製<br>`git@github.com:NaoyaNoro/coachtech-market.git`
 2. DockerDesktopアプリを立ち上げる
 3. dockerをビルドする<br>`docker-compose up -d --build`
 >3を実行するときに，`no matching manifest for linux/arm64/v8 in the manifest list entries` というようなエラーが出ることがあります。この場合，docker-compose.ymlのmysqlサービスとphp myadminのサービスの箇所に `platform: linux/amd64` というような表記を追加してください
