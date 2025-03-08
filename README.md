@@ -46,7 +46,12 @@
    CVC: 123
    ```
 ## MailHogの設定
-1. 環境変数の設定
+1. MailHogのインストール
+   ```
+   docker run --name mailhog -d --platform linux/amd64 -p 1025:1025 -p 8025:8025  
+   mailhog/mailhog
+   ```
+2. env.に環境変数の追加
    ```
    MAIL_MAILER=smtp
    MAIL_HOST=host.docker.internal
@@ -56,6 +61,13 @@
    MAIL_ENCRYPTION=null
    MAIL_FROM_ADDRESS=no-reply@example.com
    MAIL_FROM_NAME="${APP_NAME}"
+   ```
+3.PHPコンテナ内にログインする <br>`docker-compose exec php bash`
+4.キャッシュのクリア
+   ```
+   php artisan config:clear
+   php artisan cache:clear
+   php artisan config:cache
    ```
 ## 単体テストの設定
 1. MySQLコンテナ内にログインする <br>`docker-compose exec mysql bash`
