@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use App\Models\Purchase;
+use App\Models\Profile;
 use App\Http\Requests\PurchaseRequest;
 
 
@@ -68,9 +69,15 @@ class StripePaymentController extends Controller
         // Stripeセッション情報を取得
         $session = Session::retrieve($session_id);
 
+        $user = auth()->user();
+        $profile = Profile::where('user_id', $user->id)->first();
+
         $purchase=[
             'product_id' => $session->metadata->product_id,
-            'user_id'=>auth()->id()
+            'user_id'=>auth()->id(),
+            'post_code'=>$profile->post_code,
+            'address'=>$profile->address,
+            'building'=>$profile->building,
         ];
         Purchase::create($purchase);
         return view('thanks');

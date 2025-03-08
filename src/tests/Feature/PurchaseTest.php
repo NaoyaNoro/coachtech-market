@@ -3,11 +3,9 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Profile;
-use App\Models\Purchase;
 use Tests\TestCase;
 
 class PurchaseTest extends TestCase

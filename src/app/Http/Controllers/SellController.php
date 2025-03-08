@@ -33,7 +33,6 @@ class SellController extends Controller
             // 元の画像名を保持または空にする（デフォルト）
             $filename = null;
         }
-
         $product=Product::Create(
             [
                 'image' => $filename, // ファイル名のみ保存
