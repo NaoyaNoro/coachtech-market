@@ -39,7 +39,22 @@
     'secret' => env('STRIPE_SECRET'),
     ],
    ```
-4. Stripeのテストカードで支払い
+4. PHPコンテナ内にログインする 
+   ```
+   docker-compose exec php bash
+   ```
+5. キャッシュのクリア
+   ```
+   php artisan config:clear
+   php artisan cache:clear
+   php artisan config:cache
+   ```
+6. Stripeのライブラリをインストール
+   ```
+   composer require stripe/stripe-php
+
+   ```
+7. Stripeのテストカードで支払い
    ```
    カード番号: 4242 4242 4242 4242
    有効期限: 任意の未来日（例: 12/34）
@@ -62,13 +77,17 @@
    MAIL_FROM_ADDRESS=no-reply@example.com
    MAIL_FROM_NAME="${APP_NAME}"
    ```
-3.PHPコンテナ内にログインする <br>`docker-compose exec php bash`
-4.キャッシュのクリア
+3. PHPコンテナ内にログインする 
+   ```
+   docker-compose exec php bash
+   ```
+4. キャッシュのクリア
    ```
    php artisan config:clear
    php artisan cache:clear
    php artisan config:cache
    ```
+5. 会員登録を行なって，正しく挙動するかテストを行う
 ## 単体テストの設定
 1. MySQLコンテナ内にログインする <br>`docker-compose exec mysql bash`
 2. rootユーザーでログインする。<br>`mysql -u root -p`
@@ -79,7 +98,7 @@
    ```
 4. rootにdemo_testへの権限を与える
    ```
-   GRANT ALL PRIVILEGES ON demo_test.* TO 'laravel_user'@'%';
+   GRANT ALL PRIVILEGES ON demo_test.* TO 'root'@'%';
    FLUSH PRIVILEGES;
    ```
 5. databases.phpのconnectionsに以下を追加<br>
@@ -105,20 +124,22 @@
         ],
     ```
 6. .envファイルから.env.testingを作成<br>`cp .env .env.testing`
-7. .env.testingを以下のように設定
+7. .env.testingを以下のように設定(KEYの設定はからにしておく)
    ```
    APP_ENV=testing
+   APP_KEY=
    DB_CONNECTION=mysql
    DB_DATABASE=demo_test
    DB_USERNAME=root
    DB_PASSWORD=root
    ```
-8. 設定キャッシュのクリアと再生成
+8. テスト用のアプリケーションキーの作成<br> `php artisan key:generate　--env=testing`
+9. 設定キャッシュのクリアと再生成
    ```
    php artisan config:clear
    php artisan config:cache
    ```
-9. phpunit.xmlのphp箇所に以下を追加<br>
+10. phpunit.xmlのphp箇所に以下を追加<br>
 　　
       ```
       <env name="APP_ENV" value="testing"/>
@@ -126,8 +147,35 @@
       <env name="DB_DATABASE" value="demo_test"/>
       <env name="SESSION_DRIVER" value="array"/>
       ```
-10. テスト用データベースdemo_testのマイグレーション <br>`php artisan migrate --env=testing
+11. テスト用データベースdemo_testのマイグレーション <br>`php artisan migrate --env=testing
 `
+## 単体テストの実施
+1. テスト項目一覧
+
+| テスト項目 | テストファイル名| 
+|----------|----------|
+| 会員登録機能  | RegisterTest  | OK
+| ログイン機能  | LoginTest  | OK
+| ログアウト機能  | LogoutTest  | 　OK
+| 商品一覧取得  | IndexTest  | OK
+| マイリスト一覧取得  | MyListTest  | OK
+| 商品検索機能  | SearchTest  | OK
+| 商品詳細情報取得  | DetailTest  | OK
+| いいね機能  | GoodTest  | OK
+| コメント送信機能  | CommentTest  | OK
+| 商品購入機能  | PurchaseTest  | △→Stripeの購入が実装できていない
+| 支払い方法選択機能  | データ8  | 
+| 配送先変更機能  | AddressTest  | 
+| ユーザー情報取得  | MypageTest  | 
+| ユーザー情報変更  | ChangeProfileTest  | 
+| 出品商品情報登録  | SellTest  | 
+
+2. 各項目のテストを実施
+　<例>会員登録機能をテストするときは，<br>`php artisan test --filter RegisterTest`
+
+
+
+
 
 
 　　
