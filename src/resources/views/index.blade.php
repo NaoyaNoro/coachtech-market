@@ -31,7 +31,7 @@
                 <div class="product__img">
                     <img src="{{ asset('storage/img/product/' . $product->image) }}" alt="{{ $product->name }}" class="img__file">
                     @if(in_array($product->id, $soldOutProductIDs))
-                    <div class="sold-out-label">Sold Out</div>
+                    <div class="sold-out-label">Sold</div>
                     @endif
                 </div>
                 <div class="product__name">

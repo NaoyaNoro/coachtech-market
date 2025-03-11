@@ -10,7 +10,7 @@
         <div class="detail__img {{in_array($product->id,$soldOutProductIDs)?'sold-out':''}}">
             <img src="{{ asset('storage/img/product/' . $product->image) }}" alt="" class="img__file">
             @if(in_array($product->id, $soldOutProductIDs))
-            <div class="sold-out-label">Sold Out</div>
+            <div class="sold-out-label">Sold</div>
             @endif
         </div>
         <div class="detail__text">

@@ -14,8 +14,8 @@ class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function get_all_products_date()
+    //全商品を取得できる
+    public function test_get_all_products_date()
     {
         Product::factory()->count(3)->create([
             'name'=>'テスト商品',
@@ -30,8 +30,8 @@ class IndexTest extends TestCase
         }
     }
 
-    /** @test */
-    public function sold_out_label()
+    //Soldと表示される
+    public function test_sold_out_label()
     {
         $user=User::factory()->create();
         $productPurchased=Product::factory()->create();
@@ -40,6 +40,9 @@ class IndexTest extends TestCase
         Purchase::factory()->create([
             'user_id'=>$user->id,
             'product_id'=>$productPurchased->id,
+            'post_code' => '160-0023',
+            'address' => '東京都新宿区西新宿1-2-3',
+            'building' => '新宿グランドタワー 15階'
         ]);
 
         $response=$this->get('/');
@@ -48,11 +51,14 @@ class IndexTest extends TestCase
         $response->assertSee($productNotPurchased->name);
         $response->assertSee($productNotPurchased->image);
 
-        $response->assertSeeText('Sold Out');
+        $response->assertSeeInOrder([
+            $productPurchased->name,
+            'Sold'
+        ]);
     }
 
-    /** @test */
-    public function sell_product_no_see()
+    //自分が出品した商品は表示されない
+    public function test_sell_product_no_see()
     {
         $user=User::factory()->create()->first();
         $productSell=Product::factory()->create();

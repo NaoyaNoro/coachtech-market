@@ -18,8 +18,8 @@ class MypageTest extends TestCase
      *
      * @return void
      */
-    /** @test */
-    public function get_mypage_information()
+    //必要な情報が取得できる（プロフィール画像、ユーザー名、出品した商品一覧、購入した商品一覧）
+    public function test_get_mypage_information()
     {
         $user = User::factory()->create()->first();
         $this->actingAs($user);

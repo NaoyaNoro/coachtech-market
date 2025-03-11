@@ -29,43 +29,6 @@ class ProductController extends Controller
         return redirect('/'); // トップページで検索結果を表示
     }
 
-    /*
-    public function index(Request $request)
-    {
-        $page = $request->query('page', null);
-
-        // 検索条件をセッションから取得
-        $search_name = session('search_name', null);
-        $search_results = session('search_results', collect());
-
-
-        if ($page === 'mylist') {
-            if (auth()->check()) {
-                
-
-                $products = Product::whereHas('mylistBy', function ($query) {
-                    $query->where('user_id', auth()->id());
-                })
-                    ->when($search_name, function ($query, $search_name) {
-                        $query->where('name', 'LIKE', "%{$search_name}%");
-                    })
-                    ->get();
-
-            } else {
-                $products = collect();
-            }
-        } elseif ($search_name) {
-            // 検索結果を表示
-            $products = $search_results;
-        } else {
-            // 通常のおすすめ商品を表示
-            $products = Product::select('id','name', 'image')->get();
-        }
-        $soldOutProductIDs=Purchase::pluck('product_id')->toArray();
-        return view('index', compact('products', 'page', 'search_name', 'soldOutProductIDs'));
-    }
-        */
-
     public function index(Request $request)
     {
         $page = $request->query('page', null);

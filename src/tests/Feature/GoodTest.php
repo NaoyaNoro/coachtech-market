@@ -17,8 +17,8 @@ class GoodTest extends TestCase
      */
     use RefreshDatabase;
 
-    /** @test */
-    public function good_button_check()
+    //いいねした商品として登録することができる
+    public function test_good_button_check()
     {
         $user = User::factory()->create()->first();
         $this->actingAs($user);
@@ -40,19 +40,14 @@ class GoodTest extends TestCase
         $response_detail->assertSee('1');
     }
 
-    /** @test */
-    public function good_button_icon_color_change() {
+    //アイコンの色が変化する
+    public function test_good_button_icon_color_change() {
         $user = User::factory()->create()->first();
         $this->actingAs($user);
 
         $product = Product::factory()->create();
 
         $response = $this->post('/good_button', [
-            'product_id' => $product->id
-        ]);
-
-        $this->assertDatabaseHas('mylists', [
-            'user_id' => $user->id,
             'product_id' => $product->id
         ]);
 
@@ -63,8 +58,8 @@ class GoodTest extends TestCase
         $response->assertSee('checked');
     }
 
-    /** @test */
-    public function good_button_again_check()
+    //再度いいねアイコンを押して、いいねを会場すrことができるか？
+    public function test_good_button_again_check()
     {
         $user = User::factory()->create()->first();
         $this->actingAs($user);
@@ -89,5 +84,7 @@ class GoodTest extends TestCase
         $response = $this->get("/item/{$product->id}");
 
         $response->assertDontSee('checked');
+
+        $response->assertSee('0');
     }
 }

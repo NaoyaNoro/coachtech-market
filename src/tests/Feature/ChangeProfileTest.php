@@ -6,10 +6,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\Purchase;
 use App\Models\Profile;
-use App\Models\Product;
-use App\Models\Sell;
 
 class ChangeProfileTest extends TestCase
 {
@@ -19,8 +16,8 @@ class ChangeProfileTest extends TestCase
      *
      * @return void
      */
-    /** @test */
-    public function change_profile_information()
+    //変更項目が初期値として過去設定されていること（プロフィール画像、ユーザー名、郵便番号、住所）
+    public function test_change_profile_information()
     {
         $user = User::factory()->create()->first();
         $this->actingAs($user);

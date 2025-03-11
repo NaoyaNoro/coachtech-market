@@ -17,8 +17,8 @@ class CommentTest extends TestCase
      *
      * @return void
      */
-    /** @test */
-    public function submit_comment()
+    //ログイン済みのユーザーはコメントを送信できる
+    public function test_submit_comment()
     {
         $product = Product::factory()->create();
         $user = User::factory()->create()->first();
@@ -42,8 +42,8 @@ class CommentTest extends TestCase
         $response->assertSee('1');
     }
 
-    /** @test */
-    public function no_user_cannot_submit_comment()
+    //ログイン前のユーザーはコメントを送信できない
+    public function test_no_user_cannot_submit_comment()
     {
         $product=Product::factory()->create();
         $user = User::factory()->create();
@@ -63,8 +63,8 @@ class CommentTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function validation_check_for_comment()
+    //コメントが入力されていない場合、バリデーションメッセージが表示される
+    public function test_validation_check_for_comment()
     {
         $this->withoutExceptionHandling();
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
@@ -74,38 +74,40 @@ class CommentTest extends TestCase
         $user = User::factory()->create()->first();
         $this->actingAs($user);
 
-        $comment = $this->post('/comment', [
-            'user_id' => $user->id,
-            'product_id' => $product->id,
-            'comment' => ''
-        ]);
-
-        $comment->assertSee('コメントを入力してください');
+        try {
+            $this->post('/comment', [
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+                'comment' => ''
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $commentError = $e->errors()['comment'][0];
+            $this->assertEquals('コメントを入力してください', $commentError);
+            throw $e;
+        }
     }
 
-    /** @test */
-    public function more_than_256characters_validation_check_for_comment()
+    //コメントが255字以上の場合、バリデーションメッセージが表示される
+    public function test_more_than_256characters_validation_check()
     {
         $this->withoutExceptionHandling();
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
         $this->expectException(\Illuminate\Validation\ValidationException::class);
 
-        $this->withSession([]);
-
         $product = Product::factory()->create();
         $user = User::factory()->create()->first();
         $this->actingAs($user);
 
-        $comment = [
-            'user_id' => $user->id,
-            'product_id' => $product->id,
-            'comment' => str_repeat('a', 256)
-        ];
-
-        $response = $this->post('/comment', $comment);
-
-        $response->assertSessionHasErrors([
-            'comment' => '255文字以内で入力してください'
-        ]);
+        try {
+            $this->post('/comment', [
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+                'comment' => str_repeat('a', 256)
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $commentError = $e->errors()['comment'][0];
+            $this->assertEquals('255文字以内で入力してください', $commentError);
+            throw $e;
+        }
     }
 }

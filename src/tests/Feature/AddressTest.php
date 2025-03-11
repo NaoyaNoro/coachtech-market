@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Product;
@@ -17,8 +16,8 @@ class AddressTest extends TestCase
      *
      * @return void
      */
-    /** @test */
-    public function change_deliverly_address()
+    //送付先住所変更画面にて登録した住所が商品購入画面に反映されている
+    public function test_change_deliverly_address()
     {
         $this->withoutExceptionHandling();
         $user = User::factory()->create()->first();

@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
 use App\Models\Product;
-use App\Models\Profile;
 use App\Models\Category;
 use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
@@ -19,8 +18,8 @@ class SellTest extends TestCase
      *
      * @return void
      */
-    /** @test */
-    public function it_saves_product_and_category_correctly()
+    //商品出品画面にて必要な情報が保存できること（カテゴリ、商品の状態、商品名、商品の説明、販売価格）
+    public function test_it_saves_product_and_category_correctly()
     {
         $this->withoutExceptionHandling();
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
@@ -42,7 +41,6 @@ class SellTest extends TestCase
             'price' => 10000,
         ];
 
-        // POSTリクエストで商品を出品
         $response = $this->actingAs($user)->post('/sell', $sellData);
 
         $this->assertDatabaseHas('products', [
@@ -54,10 +52,8 @@ class SellTest extends TestCase
             'status' => '良好',
         ]);
 
-        // 出品した商品を取得
         $product = Product::where('name', 'test_product')->first();
 
-        // **✅ カテゴリー情報が正しく保存されているか**
         $this->assertDatabaseHas('category_products', [
             'product_id' => $product->id,
             'category_id' => $category1->id

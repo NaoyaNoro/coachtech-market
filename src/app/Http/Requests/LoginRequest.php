@@ -48,7 +48,7 @@ class LoginRequest extends FortifyLoginRequest
                 $user = \App\Models\User::where('email', $this->input('email'))->first();
 
                 if (!$user) {
-                    $validator->errors()->add('email', 'ログイン情報が登録されていません。');
+                    $validator->errors()->add('email', 'ログイン情報が登録されていません');
                 }
             }
         });

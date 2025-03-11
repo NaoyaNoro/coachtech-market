@@ -18,15 +18,19 @@ class RegisterTest extends TestCase
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
         $this->expectException(\Illuminate\Validation\ValidationException::class);
 
-        $userData = $this->post('/register', [
-            '_token' => csrf_token(),
-            'name' => '',
-            'email' => 'test@example.com',
-            'password' => 'password123',
-            'password_confirmation' => 'password123'
-        ]);
-
-        $userData->assertSessionHasErrors(['name' => 'お名前を入力してください']);
+        try {
+            $this->post('/register', [
+                '_token' => csrf_token(),
+                'name' => '',
+                'email' => 'test@example.com',
+                'password' => 'password123',
+                'password_confirmation' => 'password123'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $nameError = $e->errors()['name'][0];
+            $this->assertEquals('お名前を入力してください', $nameError);
+            throw $e;
+        }
     }
 
     // メールアドレスが入力されていない場合、バリデーションメッセージが表示される.
@@ -36,14 +40,19 @@ class RegisterTest extends TestCase
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
         $this->expectException(\Illuminate\Validation\ValidationException::class);
 
-        $userData = $this->post('/register', [
-            'name' => 'テストユーザー',
-            'email' => '',
-            'password' => 'password123',
-            'password_confirmation' => 'password123'
-        ]);
-
-        $userData->assertSessionHasErrors(['email' => 'メールアドレスを入力してください']);
+        try {
+            $this->post('/register', [
+                '_token' => csrf_token(),
+                'name' => 'テストユーザー',
+                'email' => '',
+                'password' => 'password123',
+                'password_confirmation' => 'password123'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $emailError = $e->errors()['email'][0];
+            $this->assertEquals('メールアドレスを入力してください', $emailError);
+            throw $e;
+        }
     }
 
     // パスワードが入力されていない場合、バリデーションメッセージが表示される.
@@ -53,14 +62,19 @@ class RegisterTest extends TestCase
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
         $this->expectException(\Illuminate\Validation\ValidationException::class);
 
-        $userData = $this->post('/register', [
-            'name' => 'テストユーザー',
-            'email' => 'test@example.com',
-            'password' => '',
-            'password_confirmation' => 'password123'
-        ]);
-
-        $userData->assertSessionHasErrors(['password' => 'パスワードを入力してください']);
+        try {
+            $this->post('/register', [
+                '_token' => csrf_token(),
+                'name' => 'テストユーザー',
+                'email' => 'test@example.com',
+                'password' => '',
+                'password_confirmation' => 'password123'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $passwordError = $e->errors()['password'][0];
+            $this->assertEquals('パスワードを入力してください', $passwordError);
+            throw $e;
+        }
     }
 
     // パスワードが7文字以内の場合、バリデーションメッセージが表示される.
@@ -70,14 +84,19 @@ class RegisterTest extends TestCase
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
         $this->expectException(\Illuminate\Validation\ValidationException::class);
 
-        $userData = $this->post('/register', [
-            'name' => 'テストユーザー',
-            'email' => 'test@example.com',
-            'password' => 'pass',
-            'password_confirmation' => 'pass'
-        ]);
-
-        $userData->assertSessionHasErrors(['password' => 'パスワードは8文字以上で入力してください']);
+        try {
+            $this->post('/register', [
+                '_token' => csrf_token(),
+                'name' => 'テストユーザー',
+                'email' => 'test@example.com',
+                'password' => 'pass',
+                'password_confirmation' => 'pass'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $passwordError = $e->errors()['password'][0];
+            $this->assertEquals('パスワードは8文字以上で入力してください', $passwordError);
+            throw $e;
+        }
     }
 
     // パスワードと確認用パスワードが一致しない場合、バリデーションメッセージが表示される.
@@ -87,14 +106,19 @@ class RegisterTest extends TestCase
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
         $this->expectException(\Illuminate\Validation\ValidationException::class);
 
-        $userData = $this->post('/register', [
-            'name' => 'テストユーザー',
-            'email' => 'test@example.com',
-            'password' => 'password123',
-            'password_confirmation' => 'password456'
-        ]);
-
-        $userData->assertSessionHasErrors(['password_confirmation' => 'パスワードと一致しません']);
+        try {
+            $this->post('/register', [
+                '_token' => csrf_token(),
+                'name' => 'テストユーザー',
+                'email' => 'test@example.com',
+                'password' => 'password123',
+                'password_confirmation' => 'password456'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $passwordError = $e->errors()['password_confirmation'][0];
+            $this->assertEquals('パスワードと一致しません', $passwordError);
+            throw $e;
+        }
     }
 
     // 全ての項目が入力されている場合、会員情報が登録され、メール認証画面に遷移する
@@ -113,8 +137,6 @@ class RegisterTest extends TestCase
 
         $response = $this->post('/register', $userData);
 
-        dump(\App\Models\User::all());
-
         $this->assertDatabaseHas('users', [
             'email' => 'test@example.com'
         ]);
@@ -127,4 +149,3 @@ class RegisterTest extends TestCase
         );
     }
 }
-

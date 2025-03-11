@@ -18,8 +18,8 @@ class MyListTest extends TestCase
      *
      * @return void
      */
-    /** @test */
-    public function my_list_product(){
+    //いいねした商品だけが表示される
+    public function test_my_list_product(){
         $user = User::factory()->create()->first();
         $productMyList = Product::factory()->create();
         $productNotMyList= Product::factory()->create();
@@ -36,8 +36,8 @@ class MyListTest extends TestCase
         $response->assertDontSee($productNotMyList->image);
     }
 
-    /** @test */
-    public function my_list_product_sold_out()
+    //Soldが表示される
+    public function test_my_list_product_sold_out()
     {
         $user = User::factory()->create()->first();
         $productMyListSoldOut = Product::factory()->create();
@@ -56,19 +56,22 @@ class MyListTest extends TestCase
         Purchase::factory()->create([
             'user_id' => $user->id,
             'product_id' => $productMyListSoldOut->id,
+            'post_code' => '160-0023',
+            'address' => '東京都新宿区西新宿1-2-3',
+            'building' => '新宿グランドタワー 15階'
         ]);
 
         $response = $this->get('/?page=mylist');
 
         $response->assertSeeInOrder([
             $productMyListSoldOut->name,
-            'Sold Out'
+            'Sold'
         ]);
         $response->assertSee($productMyListNotSoldOut->name);
     }
 
-    /** @test */
-    public function sell_product_no_see()
+    //自分が出品した商品は表示されない
+    public function test_sell_product_no_see()
     {
         $user = User::factory()->create()->first();
         $productSell = Product::factory()->create();
@@ -84,8 +87,8 @@ class MyListTest extends TestCase
         $response->assertDontSee($productSell->image);
     }
 
-    /** @test */
-    public function no_users_cannot_see_mylist()
+    //未認証の場合は、何も表示されない
+    public function test_no_users_cannot_see_mylist()
     {
         $user = User::factory()->create();
         $product = Product::factory()->create();

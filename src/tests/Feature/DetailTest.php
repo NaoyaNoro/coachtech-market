@@ -22,8 +22,8 @@ class DetailTest extends TestCase
      * @return void
      */
 
-    /** @test */
-    public function detail_product()
+    //必要な情報が表示される+複数選択されたカテゴリーが表示される
+    public function test_detail_product()
     {
         $productDetail = Product::factory()->create();
 
@@ -32,9 +32,15 @@ class DetailTest extends TestCase
         $category2 = Category::factory()->create(['name' => 'メンズ']);
         $category3 = Category::factory()->create(['name' => '家電']);
 
-        CategoryProduct::create(['product_id' => $productDetail->id, 'category_id' => $category1->id]);
-        CategoryProduct::create(['product_id' => $productDetail->id, 'category_id' => $category2->id]);
-        CategoryProduct::create(['product_id' => $productDetail->id, 'category_id' => $category3->id]);
+        CategoryProduct::create([
+            'product_id' => $productDetail->id, 'category_id' => $category1->id
+        ]);
+        CategoryProduct::create([
+            'product_id' => $productDetail->id, 'category_id' => $category2->id
+        ]);
+        CategoryProduct::create([
+            'product_id' => $productDetail->id, 'category_id' => $category3->id
+        ]);
 
         //いいね作成
         $user1 = User::factory()->create();
@@ -110,6 +116,9 @@ class DetailTest extends TestCase
 
         //いいね数
         $response->assertSee('2');
+
+        //コメント数
+        $response->assertSee('3');
 
         //コメント内容
         $response->assertSee('これは美味しい');

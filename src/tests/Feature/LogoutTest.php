@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 
+//ユーザーはログアウトすることができる
 class LogoutTest extends TestCase
 {
     use RefreshDatabase;
