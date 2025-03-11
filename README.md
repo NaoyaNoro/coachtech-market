@@ -164,11 +164,11 @@
 | いいね機能  | GoodTest  | OK
 | コメント送信機能  | CommentTest  | OK
 | 商品購入機能  | PurchaseTest  | △→Stripeの購入が実装できていない
-| 支払い方法選択機能  | データ8  | 
-| 配送先変更機能  | AddressTest  | 
-| ユーザー情報取得  | MypageTest  | 
-| ユーザー情報変更  | ChangeProfileTest  | 
-| 出品商品情報登録  | SellTest  | 
+| 支払い方法選択機能  |   | ✖︎→Duskが必要
+| 配送先変更機能  | AddressTest  | △→Stripeの購入が実装できていない
+| ユーザー情報取得  | MypageTest  | OK
+| ユーザー情報変更  | ChangeProfileTest  | OK
+| 出品商品情報登録  | SellTest  | OK
 
 2. 各項目のテストを実施
 　<例>会員登録機能をテストするときは，<br>`php artisan test --filter RegisterTest`
@@ -196,7 +196,8 @@
 * MySQL 8.0.26
 
 ## ER図
-![er(market)](https://github.com/user-attachments/assets/ee8eeb33-4591-4fe7-90c9-efd4a6e18ef1)
+![er(coachtech_msrket)](https://github.com/user-attachments/assets/4727a7d6-7eef-4b2e-9360-6de55950bcd6)
+
 
 
 ## URL
