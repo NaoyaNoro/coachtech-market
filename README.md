@@ -163,9 +163,9 @@
 | 商品詳細情報取得  | DetailTest  | OK
 | いいね機能  | GoodTest  | OK
 | コメント送信機能  | CommentTest  | OK
-| 商品購入機能  | PurchaseTest  | △→Stripeの購入が実装できていない
+| 商品購入機能  | PurchaseTest  | OK
 | 支払い方法選択機能  |   | ✖︎→Duskが必要
-| 配送先変更機能  | AddressTest  | △→Stripeの購入が実装できていない
+| 配送先変更機能  | AddressTest  | OK
 | ユーザー情報取得  | MypageTest  | OK
 | ユーザー情報変更  | ChangeProfileTest  | OK
 | 出品商品情報登録  | SellTest  | OK
