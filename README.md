@@ -98,7 +98,7 @@
    ```
 4. rootにdemo_testへの権限を与える
    ```
-   GRANT ALL PRIVILEGES ON demo_test.* TO 'root'@'%';
+   GRANT ALL PRIVILEGES ON demo_test.* TO 'laravel_user'@'%';
    FLUSH PRIVILEGES;
    ```
 5. databases.phpのconnectionsに以下を追加<br>
@@ -128,12 +128,12 @@
    ```
    APP_ENV=testing
    APP_KEY=
-   DB_CONNECTION=mysql
+   DB_CONNECTION=mysql_test
    DB_DATABASE=demo_test
    DB_USERNAME=root
    DB_PASSWORD=root
    ```
-8. テスト用のアプリケーションキーの作成<br> `php artisan key:generate　--env=testing`
+8. テスト用のアプリケーションキーの作成<br> `php artisan key:generate --env=testing`
 9. 設定キャッシュのクリアと再生成
    ```
    php artisan config:clear
@@ -164,7 +164,7 @@
 | いいね機能  | GoodTest  | OK
 | コメント送信機能  | CommentTest  | OK
 | 商品購入機能  | PurchaseTest  | OK
-| 支払い方法選択機能  |   | ✖︎→Duskが必要
+| 支払い方法選択機能  | PurchaseMethodTest(Duskを使用)  | ✖︎→Duskが必要
 | 配送先変更機能  | AddressTest  | OK
 | ユーザー情報取得  | MypageTest  | OK
 | ユーザー情報変更  | ChangeProfileTest  | OK
@@ -172,6 +172,28 @@
 
 2. 各項目のテストを実施
 　<例>会員登録機能をテストするときは，<br>`php artisan test --filter RegisterTest`
+## DUSKの設定
+1. MySQLコンテナ内にログインする <br>`docker-compose exec mysql bash`
+2. Duskのインストール
+   ```
+   composer require --dev laravel/dusk
+   php artisan dusk:install
+   ```
+3. .envファイルから.env.dusk.localを作成 <br>`cp .env .env.dusk.local`
+4. .env.dusk.localを以下のように設定(KEYの設定はからにしておく)
+   ```
+   APP_NAME=Laravel
+   APP_ENV=dusk.local
+   APP_KEY=
+   APP_DEBUG=true
+   APP_URL=http://nginx
+   DB_CONNECTION=mysql
+   DB_HOST=mysql
+   DB_PORT=3306
+   DB_DATABASE=demo_test
+   ```
+5. 
+
 
 
 
@@ -203,4 +225,4 @@
 ## URL
 * 開発環境:http://localhost
 * phpmyadmin:http://localhost:8080/
-# market-test
+
