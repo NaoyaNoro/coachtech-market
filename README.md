@@ -19,9 +19,15 @@
    DB_PASSWORD=laravel_pass
    ```
 5. アプリケーションキーの作成<br> `php artisan key:generate`
-6. マイグレーションの実行<br> `php artisan migrate`
-7. シーディングの実行<br> `php artisan db:seed`
-8. 保存した画像が正しく表示できない場合は，strageに保存したデータを再登録する<br> `php artisan storage:link`
+6. キャッシュのクリア
+   ```
+   php artisan config:clear
+   php artisan cache:clear
+   php artisan config:cache
+   ```
+7. マイグレーションの実行<br> `php artisan migrate`
+8. シーディングの実行<br> `php artisan db:seed`
+9. 保存した画像が正しく表示できない場合は，strageに保存したデータを再登録する<br> `php artisan storage:link`
 
 ## Stripeの設定
 1. APIキーを取得する<br>
@@ -60,11 +66,11 @@
    有効期限: 任意の未来日（例: 12/34）
    CVC: 123
    ```
+>今回はStripeのテスト決済機能を用いています。テスト決済では，即時決済ができるという観点から「カード決済」のみが適用できます。「コンビニ支払い」は即時決済ができないので購入手続きが完了しないことをご了承ください。
 ## MailHogの設定
 1. MailHogのインストール
    ```
-   docker run --name mailhog -d --platform linux/amd64 -p 1025:1025 -p 8025:8025  
-   mailhog/mailhog
+   docker run --name mailhog -d --platform linux/amd64 -p 1025:1025 -p 8025:8025 mailhog/mailhog
    ```
 2. env.に環境変数の追加
    ```
@@ -87,7 +93,8 @@
    php artisan cache:clear
    php artisan config:cache
    ```
-5. 会員登録を行なって，正しく挙動するかテストを行う
+5. `認証はこちらから`というボタンを押すと，MailHogのページに遷移するので，そこで`Verify Email Address`をクリックする
+6. ページ遷移後`Verify Email Address`というボタンを押すと，メール認証が行われて，プロフィール設定画面に遷移する
 ## 単体テストの設定
 1. MySQLコンテナ内にログインする <br>`docker-compose exec mysql bash`
 2. rootユーザーでログインする。<br>`mysql -u root -p`
@@ -101,7 +108,7 @@
    GRANT ALL PRIVILEGES ON demo_test.* TO 'laravel_user'@'%';
    FLUSH PRIVILEGES;
    ```
-5. databases.phpのconnectionsに以下を追加<br>
+5. configディレクトリ内のdatabases.phpのconnectionsに以下を追加<br>
    ```
    'mysql_test' => [
             'driver' => 'mysql',
@@ -133,12 +140,12 @@
    DB_USERNAME=root
    DB_PASSWORD=root
    ```
-8. テスト用のアプリケーションキーの作成<br> `php artisan key:generate --env=testing`
-9. 設定キャッシュのクリアと再生成
+8. 設定キャッシュのクリアと再生成
    ```
    php artisan config:clear
    php artisan config:cache
    ```
+9. テスト用のアプリケーションキーの作成<br> `php artisan key:generate --env=testing`
 10. phpunit.xmlのphp箇所に以下を追加<br>
 　　
       ```
@@ -149,6 +156,8 @@
       ```
 11. テスト用データベースdemo_testのマイグレーション <br>`php artisan migrate --env=testing
 `
+>`php artisan key:generate --env=testing`を実行してもアプリケーションキーがうまく実行できないときがあります。その場合は，`php artisan key:generate --show`で手動でアプリケーションキーを作成して，`APP_KEY=`の後に表記してください。
+
 ## 単体テストの実施
 1. テスト項目一覧
 
@@ -173,7 +182,7 @@
 2. 各項目のテストを実施
 　<例>会員登録機能をテストするときは，<br>`php artisan test --filter RegisterTest`
 ## DUSKの設定
-1. MySQLコンテナ内にログインする <br>`docker-compose exec mysql bash`
+1. PHPコンテナ内にログインする <br>`docker-compose exec php bash`
 2. Duskのインストール
    ```
    composer require --dev laravel/dusk
@@ -182,17 +191,46 @@
 3. .envファイルから.env.dusk.localを作成 <br>`cp .env .env.dusk.local`
 4. .env.dusk.localを以下のように設定(KEYの設定はからにしておく)
    ```
-   APP_NAME=Laravel
    APP_ENV=dusk.local
    APP_KEY=
    APP_DEBUG=true
    APP_URL=http://nginx
-   DB_CONNECTION=mysql
+
+   DB_CONNECTION=mysql_test
    DB_HOST=mysql
    DB_PORT=3306
    DB_DATABASE=demo_test
+   DB_USERNAME=laravel_user
+   DB_PASSWORD=laravel_pass
    ```
-5. 
+5. testディレクトリ内のDuskTestCase.phpを以下のように修正する
+   ```
+   protected function driver()
+    {
+        $options = (new ChromeOptions)->addArguments([
+            '--disable-gpu',
+            '--headless', // GUI なしのヘッドレスモード
+            '--no-sandbox',
+            '--disable-dev-shm-usage',
+            '--window-size=1920,1080',
+        ]);
+
+        return RemoteWebDriver::create(
+            'http://selenium:4444/wd/hub', // Selenium サーバー
+            DesiredCapabilities::chrome()->setCapability(
+                ChromeOptions::CAPABILITY,
+                $options
+            )
+        );
+    }
+   ```
+6. 設定キャッシュのクリアと再生成
+   ```
+   php artisan config:clear
+   php artisan config:cache
+   ```
+7. テスト用のアプリケーションキーの作成<br> `php artisan key:generate --env=dusk`
+8. サーバーと繋がっているかテスト<br> 'docker-compose exec selenium curl -I http://nginx'
 
 
 
