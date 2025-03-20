@@ -103,8 +103,9 @@
    > CREATE DATABASE demo_test;
    > SHOW DATABASES;
    ```
-4. rootにdemo_testへの権限を与える
+4. rootとlaravel_userにdemo_testへの権限を与える
    ```
+   GRANT ALL PRIVILEGES ON demo_test.* TO 'root'@'%';
    GRANT ALL PRIVILEGES ON demo_test.* TO 'laravel_user'@'%';
    FLUSH PRIVILEGES;
    ```
@@ -131,7 +132,7 @@
         ],
     ```
 6. .envファイルから.env.testingを作成<br>`cp .env .env.testing`
-7. .env.testingを以下のように設定(KEYの設定はからにしておく)
+7. .env.testingを以下のように設定(KEYの設定は空にしておく)
    ```
    APP_ENV=testing
    APP_KEY=
@@ -140,21 +141,21 @@
    DB_USERNAME=root
    DB_PASSWORD=root
    ```
-8. 設定キャッシュのクリアと再生成
-   ```
-   php artisan config:clear
-   php artisan config:cache
-   ```
-9. テスト用のアプリケーションキーの作成<br> `php artisan key:generate --env=testing`
-10. phpunit.xmlのphp箇所に以下を追加<br>
-　　
-      ```
-      <env name="APP_ENV" value="testing"/>
-      <env name="DB_CONNECTION" value="mysql_test"/>
-      <env name="DB_DATABASE" value="demo_test"/>
-      <env name="SESSION_DRIVER" value="array"/>
-      ```
-11. テスト用データベースdemo_testのマイグレーション <br>`php artisan migrate --env=testing
+8. テスト用のアプリケーションキーの作成<br> `php artisan key:generate --env=testing`
+9. テスト環境への切り替え<br>`export $(grep -v '^#' .env.testing | xargs)`
+10. 設定キャッシュのクリア
+    ```
+    php artisan config:clear
+    php artisan cache:clear
+    ```
+11. phpunit.xmlのphp箇所に以下を追加
+    ```
+    <env name="APP_ENV" value="testing"/>
+    <env name="DB_CONNECTION" value="mysql_test"/>
+    <env name="DB_DATABASE" value="demo_test"/>
+    <env name="SESSION_DRIVER" value="array"/>
+    ```
+13. テスト用データベースdemo_testのマイグレーション <br>`php artisan migrate --env=testing
 `
 >`php artisan key:generate --env=testing`を実行してもアプリケーションキーがうまく実行できないときがあります。その場合は，`php artisan key:generate --show`で手動でアプリケーションキーを作成して，`APP_KEY=`の後に表記してください。
 
@@ -173,7 +174,7 @@
 | いいね機能  | GoodTest  | OK
 | コメント送信機能  | CommentTest  | OK
 | 商品購入機能  | PurchaseTest  | OK
-| 支払い方法選択機能  | PurchaseMethodTest(Duskを使用)  | ✖︎→Duskが必要
+| 支払い方法選択機能  | PurchaseMethodTest(Duskを使用)  |
 | 配送先変更機能  | AddressTest  | OK
 | ユーザー情報取得  | MypageTest  | OK
 | ユーザー情報変更  | ChangeProfileTest  | OK
@@ -181,7 +182,17 @@
 
 2. 各項目のテストを実施
 　<例>会員登録機能をテストするときは，<br>`php artisan test --filter RegisterTest`
+3. テスト終了後，本番環境への切り替え<br>`export $(grep -v '^#' .env | xargs)`
+4. 設定キャッシュのクリア
+    ```
+    php artisan config:clear
+    php artisan cache:clear
+    ```
+   
 ## DUSKの設定
+> [!NOTE]
+> Laravel Duskは，ブラウザテストを自動化するためのツールである。支払い方法選択機能では，JavaScriptを使うことで支払い方法が即座に小計画面に反映されるようになっている。Laravelの通常の単体テストでは，バックエンドのロジックを検証できるが，JavaScriptを含む動作は確認できない。そこでDuskを使うことで，実際のブラウザを起動して，JavaScript を含むフロントエンドの動作をテストできる。
+
 1. PHPコンテナ内にログインする <br>`docker-compose exec php bash`
 2. Duskのインストール
    ```
@@ -224,13 +235,23 @@
         );
     }
    ```
-6. 設定キャッシュのクリアと再生成
-   ```
-   php artisan config:clear
-   php artisan config:cache
-   ```
+6. テスト環境への切り替え<br>`export $(grep -v '^#' .env.testing | xargs)`
 7. テスト用のアプリケーションキーの作成<br> `php artisan key:generate --env=dusk`
-8. サーバーと繋がっているかテスト<br> 'docker-compose exec selenium curl -I http://nginx'
+8. dockerを一度停止する<br>`docker-compose down`
+9. 再度dockerをビルドする<br>`docker-compose up -d --build`
+10. 設定キャッシュのクリア
+    ```
+    php artisan config:clear
+    php artisan cache:clear
+    ```
+11. 支払い方法選択機能のテストを行う<br>`php artisan dusk --filter=PurchaseMethodTest`
+12. テスト終了後，本番環境への切り替え<br>`export $(grep -v '^#' .env | xargs)`
+13. 設定キャッシュのクリア
+    ```
+    php artisan config:clear
+    php artisan cache:clear
+    ```
+>`php artisan key:generate --env=dusk`を実行してもアプリケーションキーがうまく実行できないときがあります。その場合は，`php artisan key:generate --show`で手動でアプリケーションキーを作成して，`APP_KEY=`の後に表記してください。
 
 
 
