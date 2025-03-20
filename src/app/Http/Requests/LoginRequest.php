@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Validator;
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class LoginRequest extends FortifyLoginRequest
 {
@@ -45,9 +47,8 @@ class LoginRequest extends FortifyLoginRequest
     {
         $validator->after(function ($validator) {
             if (!$validator->errors()->has('email') && !$validator->errors()->has('password')) {
-                $user = \App\Models\User::where('email', $this->input('email'))->first();
-
-                if (!$user) {
+                $user =User::where('email', $this->input('email'))->first();
+                if (!$user || !Hash::check($this->input('password'),$user->password)) {
                     $validator->errors()->add('email', 'ログイン情報が登録されていません');
                 }
             }

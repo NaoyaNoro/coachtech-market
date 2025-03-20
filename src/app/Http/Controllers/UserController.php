@@ -53,19 +53,7 @@ class UserController extends Controller
         // フラッシュメッセージを設定してリダイレクト
         return redirect('/');
     }
-/*
-    public function profile()
-    {
-        $user =User::with('profile')->find(auth()->id());
-        $sellProducts=Product::whereHas('sells',function($query) use ($user){
-            $query->where('user_id',$user->id);
-        })->get();
-        $purchasedProducts = Product::whereHas('purchases', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
-        })->get();
-        return view('profile ', compact('user', 'sellProducts', 'purchasedProducts'));
-    }
-*/
+
     public function profile(Request $request)
     {
         $user_id = auth()->id();

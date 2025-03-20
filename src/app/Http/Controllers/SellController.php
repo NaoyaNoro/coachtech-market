@@ -21,21 +21,18 @@ class SellController extends Controller
     public function put_up(ExhibitionRequest $request)
     {
         if ($request->hasFile('image')) {
-            // 保存先のディレクトリを指定
             $destinationPath = storage_path('app/public/img/product');
 
-            // オリジナルのファイル名を取得
             $filename = $request->file('image')->getClientOriginalName();
 
-            // ファイルを保存
             $request->file('image')->move($destinationPath, $filename);
         } else {
-            // 元の画像名を保持または空にする（デフォルト）
+            
             $filename = null;
         }
         $product=Product::Create(
             [
-                'image' => $filename, // ファイル名のみ保存
+                'image' => $filename,
                 'name' => $request->name,
                 'brand' => $request->brand,
                 'price' => $request->price,

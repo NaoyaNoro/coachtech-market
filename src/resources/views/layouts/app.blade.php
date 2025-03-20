@@ -37,12 +37,21 @@
 
         <div class="header__bottom">
             <nav>
+                @auth
                 <div class="nav__button">
                     <form action="/logout" class="nav__logout" method="post">
                         @csrf
                         <button type="submit" class="logout__button">ログアウト</button>
                     </form>
                 </div>
+                @endauth
+                @guest
+                <div class="nav__button">
+                    <a href="/login" class="nav__logout">
+                        <button type="submit" class="logout__button">ログイン</button>
+                    </a>
+                </div>
+                @endguest
                 <div class="nav__button">
                     <a href="/mypage" class="mypage__button">
                         マイページ

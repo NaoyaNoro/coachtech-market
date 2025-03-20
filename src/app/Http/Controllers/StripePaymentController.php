@@ -52,7 +52,6 @@ class StripePaymentController extends Controller
             ]
         ]);
 
-        // Stripe の決済ページにリダイレクト
         return redirect($session->url);
     }
 
@@ -66,7 +65,6 @@ class StripePaymentController extends Controller
             return redirect('/')->with('error', '決済情報が見つかりません');
         }
 
-        // Stripeセッション情報を取得
         $session = Session::retrieve($session_id);
 
         $user = auth()->user();

@@ -19,7 +19,7 @@
             <div class="form__item">
                 <div class="form__item-name">
                     <p class="form__label">
-                        ユーザー名/メールアドレス
+                        メールアドレス
                     </p>
                 </div>
                 <div class="form__item-input">
