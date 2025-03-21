@@ -65,7 +65,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //  支払い関連
     Route::post('/checkout', [StripePaymentController::class, 'checkout']);
     Route::get('/payment/success', [StripePaymentController::class, 'success']);
-    Route::get('/payment/cancel', [StripePaymentController::class, 'cancel']);
 
     //  出品関連
     Route::get('/sell', [SellController::class, 'sell']);
