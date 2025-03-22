@@ -116,6 +116,11 @@
             <div class="sell__item">
                 <input type="text" name="brand" class="item__input" value="{{old('brand')}}">
             </div>
+            <div class="error">
+                @error('brand')
+                <span class="error">{{$message}}</span>
+                @enderror
+            </div>
         </div>
         <div class="sell__group">
             <div class="item">
