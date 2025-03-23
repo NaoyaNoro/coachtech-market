@@ -73,8 +73,6 @@ class PurchaseTest extends TestCase
             'product_id' => $product->id,
         ]);
 
-        Mockery::close();
-
         //購入した商品は商品一覧画面にて「sold」と表示される
         $responseSoldout = $this->get('/');
         $responseSoldout->assertSeeInOrder([
@@ -88,6 +86,8 @@ class PurchaseTest extends TestCase
             $product->image,
             $product->name,
         ]);
+
+        Mockery::close();
     }
 }
 

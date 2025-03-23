@@ -41,16 +41,14 @@ class UserController extends Controller
 
         // プロフィールを更新または作成
         Profile::updateOrCreate(
-            ['user_id' => auth()->id()], // 検索条件（ログイン中のユーザーID）
+            ['user_id' => auth()->id()],
             [
-                'image' => $filename, // ファイル名のみ保存
+                'image' => $filename,
                 'post_code' => $request->post_code,
                 'address' => $request->address,
                 'building' => $request->building,
             ]
         );
-
-        // フラッシュメッセージを設定してリダイレクト
         return redirect('/');
     }
 

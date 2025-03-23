@@ -20,20 +20,17 @@ class ProductController extends Controller
     {
         $search_name = $request->name;
 
-        // 検索結果を取得
         $search_results = Product::where('name', 'LIKE', "%{$search_name}%")->get();
 
-        // 検索条件をセッションに保存
         session(['search_name' => $search_name, 'search_results' => $search_results]);
 
-        return redirect('/'); // トップページで検索結果を表示
+        return redirect('/'); 
     }
 
     public function index(Request $request)
     {
         $page = $request->query('page', null);
 
-        // 検索条件をセッションから取得
         $search_name = session('search_name', null);
         $search_results = session('search_results', collect());
 
@@ -63,7 +60,6 @@ class ProductController extends Controller
                 ->get();
         }
 
-        // 売り切れた商品のIDを取得
         $soldOutProductIDs = Purchase::pluck('product_id')->toArray();
 
         return view('index', compact('products', 'page', 'search_name', 'soldOutProductIDs'));

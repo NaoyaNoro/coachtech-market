@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="{{ asset('css/verify__email.css') }}">
 @endsection
 
+@section('navigation')
+{{-- ナビゲーションを表示しない --}}
+@endsection
+
 @section('content')
 <div class="verify-email__content">
     <div class="verify-email__head">

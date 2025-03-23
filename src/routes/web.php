@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
     // メール認証処理
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
-        return redirect('/mypage/profile'); // 認証後にプロフィール設定画面へ
+        return redirect('/mypage/profile');
     })->middleware(['signed'])->name('verification.verify');
 
     // 認証メールの再送信

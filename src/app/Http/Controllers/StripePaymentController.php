@@ -33,16 +33,16 @@ class StripePaymentController extends Controller
         // Stripe セッションを作成
         $session = Session::create([
             'payment_method_types' =>
-            $payment_method_types, // カード支払い
+            $payment_method_types,
             'line_items' => [[
                 'price_data' => [
-                    'currency' => 'jpy', // 日本円
+                    'currency' => 'jpy',
                     'product_data' => [
-                        'name' => $productName, // 商品名
+                        'name' => $productName,
                     ],
                     'unit_amount' => $productPrice ,
                 ],
-                'quantity' => 1, // 購入数
+                'quantity' => 1,
             ]],
             'mode' => 'payment',
             'success_url' => url('/payment/success') . '?session_id={CHECKOUT_SESSION_ID}',

@@ -32,7 +32,6 @@ class FortifyServiceProvider extends ServiceProvider
         // Fortify にカスタムユーザー登録処理を設定
         Fortify::createUsersUsing(CreateNewUser::class);
 
-        // 会員登録後のリダイレクト先 → まずはメール認証ページへ
         Event::listen(Registered::class, function ($event) {
             session(['url.intended' => route('verification.notice')]);
         });
@@ -46,15 +45,14 @@ class FortifyServiceProvider extends ServiceProvider
             $user = \App\Models\User::where('email', $request->email)->first();
 
             if (!$user || !Hash::check($request->password, $user->password)) {
-                return null; // 認証失敗時
+                return null;
             }
 
-            // 未認証ユーザーはログインを拒否（エラーメッセージを表示）
             if (!$user->hasVerifiedEmail()) {
-                return null; // Fortify のデフォルトの処理で「認証情報が正しくありません」と表示される
+                return null;
             }
 
-            return $user; // 認証成功時
+            return $user;
         });
 
         // ログインのレート制限

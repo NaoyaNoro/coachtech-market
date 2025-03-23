@@ -58,7 +58,7 @@ class GoodTest extends TestCase
         $response->assertSee('checked');
     }
 
-    //再度いいねアイコンを押して、いいねを会場すrことができるか？
+    //再度いいねアイコンを押して、いいねを解除することができるか？
     public function test_good_button_again_check()
     {
         $user = User::factory()->create()->first();

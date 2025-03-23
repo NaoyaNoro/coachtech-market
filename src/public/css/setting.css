@@ -18,6 +18,10 @@
     cursor: pointer;
 }
 
+.profile__ttl{
+    font-size: 30px;
+}
+
 /* 丸いプロフィール画像 */
 .profile-image {
     width: 150px;
@@ -121,6 +125,10 @@
     .profile-image {
         width: 120px;
         height: 120px;
+    }
+
+    .profile__ttl {
+        font-size: 25px;
     }
 }
 

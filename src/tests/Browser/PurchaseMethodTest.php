@@ -35,15 +35,15 @@ class PurchaseMethodTest extends DuskTestCase
 
             $browser->visit('/login')
                 ->type('email', $user->email)
-                ->type('password', 'password') // Dusk ではプレーンテキストで送信する
+                ->type('password', 'password')
                 ->press('ログインする')
                 ->assertPathIs('/');
 
             $browser->visit("/purchase/{$product->id}")
-                ->assertSee('支払い方法') // "支払い方法" のテキストがあるか確認
+                ->assertSee('支払い方法')
                 ->select('#purchaseMethodSelect', 'カード支払い')
-                ->pause(1000) // JavaScript が適用されるのを待つ
-                ->assertInputValue('#paymentMethodInput', 'カード支払い'); // 右の表に "カード支払い" が表示されるか確認
+                ->pause(1000)
+                ->assertInputValue('#paymentMethodInput', 'カード支払い');
         });
     }
 }

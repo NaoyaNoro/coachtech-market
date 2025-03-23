@@ -27,7 +27,6 @@ class SellController extends Controller
 
             $request->file('image')->move($destinationPath, $filename);
         } else {
-            
             $filename = null;
         }
         $product=Product::Create(

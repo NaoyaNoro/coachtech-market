@@ -45,6 +45,7 @@ class SellTest extends TestCase
 
         $this->assertDatabaseHas('products', [
             'name' => 'test_product',
+            'image' => 'product.jpg',
             'brand' => 'test_company',
             'description' => 'これはテスト商品です。',
             'price' => 10000,

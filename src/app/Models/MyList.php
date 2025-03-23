@@ -10,7 +10,7 @@ class MyList extends Model
     protected $table = 'mylists';
 
     use HasFactory;
-    
+
     protected $fillable = ['user_id', 'product_id'];
 
     public function product()
