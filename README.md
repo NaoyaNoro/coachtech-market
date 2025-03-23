@@ -130,14 +130,13 @@
    ```
    docker-compose exec mysql bash
    ```
-3. rootユーザーでログインする。
+3. rootユーザーでログインする。(PW:root)
    ```
    mysql -u root -p
    ```
 5. demo_testデータベースの新規作成を行う。
    ```
-   > CREATE DATABASE demo_test;
-   > SHOW DATABASES;
+   CREATE DATABASE demo_test;
    ```
 6. rootとlaravel_userにdemo_testへの権限を与える
    ```
