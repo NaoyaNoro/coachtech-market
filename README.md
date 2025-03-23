@@ -1,4 +1,6 @@
 # coachtechフリマ
+## プロジェクトの概要
+アイテムの出品と購入を行うためのフリマアプリを開発する
 
 ## Dockerビルド
 1. リポジトリの複製
@@ -352,6 +354,9 @@
 * php 7.4.9
 * Laravel 8.83.8
 * MySQL 8.0.26
+* Stripe  v16.6.0
+* MailHog 1.0.1
+* Dusk v6.25.2
 
 ## ER図
 ![er(coachtech_msrket)](https://github.com/user-attachments/assets/4727a7d6-7eef-4b2e-9360-6de55950bcd6)
@@ -361,4 +366,5 @@
 ## URL
 * 開発環境:http://localhost
 * phpmyadmin:http://localhost:8080/
+* MailHog:http://localhost:8025/
 
