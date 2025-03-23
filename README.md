@@ -189,6 +189,8 @@
     php artisan config:clear
     php artisan cache:clear
     ```
+> * 商品詳細情報取得では「必要な情報が表示される」「複数選択されたカテゴリーが表示されているか」の２項目あります。これらはDetailTest内でのtest_detail_productという関数で一度にテストしています。
+> * 商品購入機能では「「購入する」ボタンを押下すると購入が完了する」「購入した商品は商品一覧画面にて「sold」と表示される」「「プロフィール/購入した商品一覧」に追加されている」の3項目あります。これらはPurchaseTest内でのtest_purchase_stripe_paymentという関数で一度にテストしています。
    
 ## DUSKの設定
 > [!NOTE]
@@ -201,7 +203,7 @@
    php artisan dusk:install
    ```
 3. .envファイルから.env.dusk.localを作成 <br>`cp .env .env.dusk.local`
-4. .env.dusk.localを以下のように設定(KEYの設定はからにしておく)
+4. .env.dusk.localを以下のように設定(KEYの設定は空にしておく)
    ```
    APP_ENV=dusk.local
    APP_KEY=
