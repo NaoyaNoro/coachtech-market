@@ -230,10 +230,14 @@
 | ユーザー情報変更  | ChangeProfileTest  | `php artisan test --filter ChangeProfileTest`|
 | 出品商品情報登録  | SellTest  | `php artisan test --filter SellTest`|
 
-2. 各項目のテストを実施(1つずつテストを行うこと)
-　<例>会員登録機能をテストするとき
+2. 各項目のテストを実施<br>
+   <例>会員登録機能をテストするとき
    ```
    php artisan test --filter RegisterTest
+   ```
+   <例>同時にテストするとき<br>
+   ```
+   php artisan test
    ```
 3. テスト終了後，本番環境への切り替え
    ```
@@ -244,7 +248,6 @@
     php artisan config:clear
     php artisan cache:clear
     ```
-> * テストは`php artisan test --filter RegisterTest`のように，一つずつ独立して行ってください。`php artisan test`で同時に処理された場合，他のテスト項目が影響して，テストが失敗することがあります。
 > * 商品詳細情報取得では「必要な情報が表示される」「複数選択されたカテゴリーが表示されているか」の２項目あります。これらはDetailTest内でのtest_detail_productという関数で一度にテストしています。
 > * 商品購入機能では「「購入する」ボタンを押下すると購入が完了する」「購入した商品は商品一覧画面にて「sold」と表示される」「「プロフィール/購入した商品一覧」に追加されている」の3項目あります。これらはPurchaseTest内でのtest_purchase_stripe_paymentという関数で一度にテストしています。
    
