@@ -86,7 +86,8 @@
    ```
    composer require stripe/stripe-php
    ```
-7. Stripeのテストカードで支払い
+7. 支払い方法を選択後，`購入する`ボタンを押す
+8. Stripeのテストカードで支払い
    ```
    カード番号: 4242 4242 4242 4242
    有効期限: 任意の未来日（例: 12/34）
@@ -185,7 +186,7 @@
     ```
     php artisan key:generate --env=testing
     ```
-12. テスト環境への切り替え`
+12. テスト環境への切り替え
     ```
     export $(grep -v '^#' .env.testing | xargs)
     ```
@@ -205,28 +206,28 @@
     ```
     php artisan migrate --env=testing
     ```
->`php artisan key:generate --env=testing`を実行してもアプリケーションキーがうまく実行できないときがあります。その場合は，`php artisan key:generate --show`で手動でアプリケーションキーを作成して，`APP_KEY=`の後に表記してください。
+>`php artisan key:generate --env=testing`を実行してもアプリケーションキーがうまく作成できないときがあります。その場合は，`php artisan key:generate --show`で手動でアプリケーションキーを作成して，`APP_KEY=`の後に表記してください。
 
 ## 単体テストの実施
 1. テスト項目一覧
 
-| テスト項目 | テストファイル名| 
-|----------|----------|
-| 会員登録機能  | RegisterTest  | OK
-| ログイン機能  | LoginTest  | OK
-| ログアウト機能  | LogoutTest  | 　OK
-| 商品一覧取得  | IndexTest  | OK
-| マイリスト一覧取得  | MyListTest  | OK
-| 商品検索機能  | SearchTest  | OK
-| 商品詳細情報取得  | DetailTest  | OK
-| いいね機能  | GoodTest  | OK
-| コメント送信機能  | CommentTest  | OK
-| 商品購入機能  | PurchaseTest  | OK
-| 支払い方法選択機能  | PurchaseMethodTest(Duskを使用)  |
-| 配送先変更機能  | AddressTest  | OK
-| ユーザー情報取得  | MypageTest  | OK
-| ユーザー情報変更  | ChangeProfileTest  | OK
-| 出品商品情報登録  | SellTest  | OK
+| テスト項目 | テストファイル名| 実行コマンド
+|----------|----------|----------|
+| 会員登録機能  | RegisterTest  | `php artisan test --filter RegisterTest`|
+| ログイン機能  | LoginTest  |`php artisan test --filter LoginTest` |
+| ログアウト機能  | LogoutTest  | `php artisan test --filter LogoutTest`　|
+| 商品一覧取得  | IndexTest  |`php artisan test --filter IndexTest` |
+| マイリスト一覧取得  | MyListTest  | `php artisan test --filter MyListTest`|
+| 商品検索機能  | SearchTest  | `php artisan test --filter SearchTest`|
+| 商品詳細情報取得  | DetailTest  | `php artisan test --filter DetailTest`|
+| いいね機能  | GoodTest  | `php artisan test --filter GoodTest`|
+| コメント送信機能  | CommentTest  | `php artisan test --filter CommentTest`|
+| 商品購入機能  | PurchaseTest  |`php artisan test --filter PurchaseTest` |
+| 支払い方法選択機能  | PurchaseMethodTest(Duskを使用)  | 下記参照 |
+| 配送先変更機能  | AddressTest  | `php artisan test --filter AddressTest`|
+| ユーザー情報取得  | MypageTest  | `php artisan test --filter MypageTest`|
+| ユーザー情報変更  | ChangeProfileTest  | `php artisan test --filter ChangeProfileTest`|
+| 出品商品情報登録  | SellTest  | `php artisan test --filter SellTest`|
 
 2. 各項目のテストを実施(1つずつテストを行うこと)
 　<例>会員登録機能をテストするとき
@@ -242,7 +243,7 @@
     php artisan config:clear
     php artisan cache:clear
     ```
-> * テストは`php artisan test --filter RegisterTest`のように，一つずつ独立して行ってください。並列で処理された場合，他のテスト項目が影響して，テストが失敗することがあります。
+> * テストは`php artisan test --filter RegisterTest`のように，一つずつ独立して行ってください。`php artisan test`で同時に処理された場合，他のテスト項目が影響して，テストが失敗することがあります。
 > * 商品詳細情報取得では「必要な情報が表示される」「複数選択されたカテゴリーが表示されているか」の２項目あります。これらはDetailTest内でのtest_detail_productという関数で一度にテストしています。
 > * 商品購入機能では「「購入する」ボタンを押下すると購入が完了する」「購入した商品は商品一覧画面にて「sold」と表示される」「「プロフィール/購入した商品一覧」に追加されている」の3項目あります。これらはPurchaseTest内でのtest_purchase_stripe_paymentという関数で一度にテストしています。
    
@@ -336,15 +337,15 @@
     php artisan config:clear
     php artisan cache:clear
     ```
->`php artisan key:generate --env=dusk`を実行してもアプリケーションキーがうまく実行できないときがあります。その場合は，`php artisan key:generate --show`で手動でアプリケーションキーを作成して，`APP_KEY=`の後に表記してください。
+>`php artisan key:generate --env=dusk`を実行してもアプリケーションキーがうまく作成できないときがあります。その場合は，`php artisan key:generate --show`で手動でアプリケーションキーを作成して，`APP_KEY=`の後に表記してください。
 
 ## 諸注意
 * 基本設計書(生徒様入力用)のバリデーションのところで，運営様と相談の上，変更しています。AddressRequest.phpとProfileRequest.phpが分離されており，意図がわからない仕様になっておりました。コーチとも相談の上，AddressRequest.php一つに統合しています。つまりプロフィール画像に関するバリデーションもAddressRequest.phpにまとめてあります。
 * AddressReauest.phpのプロフィール画像についてですが，コーチと相談して「拡張子が.jpegもしくは.png」に付け足して，「入力必須(初回登録時)」というバリデーションを加えています。プロフィール変更する場合は，初回登録時の画像がデフォルトの値としてそのまま適用されます。
 * 住所変更画面では，デフォルトではプロフィールの登録された「郵便番号」，「住所」，「建物名」が表示されるようになっております。これを消して更新するとエラーになってしまいますので住所変更のページにはChangeAddressRequest.phpというリクエストを加えています。
-* PurchaseRequest.phpでは元々「選択必須」という項目がありましたが，これはChangeAddressRequest.phpを作成したことにより，空であることはないので，つけていません。
-* ExhibitationRequest.phpでは，元々ブランド名はバリデーションの対象外でした。しかしテストケース一覧では，ブランド名の表示を要求されているので，「入力必須」でバリデーション項目に加えています。
-* Figmaでは商品詳細画面に「カラー」という項目がありましたが，商品出品画面には「カラー」項目はありませんでした。商品詳細画面に合わせて，商品出品画面の項目に「カラー」を付け加えてあります。
+* PurchaseRequest.phpでは「配送先」に「選択必須」という項目がありましたが，これはChangeAddressRequest.phpを作成したことにより，空であることはないのでつけていません。
+* ExhibitationRequest.phpでは，「商品のブランド名」はバリデーションの対象外でした。しかしテストケース一覧では，ブランド名の表示を要求されているので，「入力必須」でバリデーション項目に加えています。
+* Figmaでは商品詳細画面に「カラー」という項目がありましたが，商品出品画面には「カラー」項目はありませんでした。FIgmaの商品詳細画面に合わせて，商品出品画面の項目に「カラー」を付け加えてあります。
 * 機能要件のFN005とFN011では会員登録後，ログイン画面に遷移するように指定があります。しかしFigmaを確認すると，会員登録→メール認証→プロフィール設定画面→トップ画面という遷移になっていましたので，Figmaに従って作成しています。
 
 ## 使用技術
