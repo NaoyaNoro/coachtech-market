@@ -3,14 +3,14 @@
 ## Dockerビルド
 1. リポジトリの複製
    ```
-   git clone git@github.com:NaoyaNoro/coachtech-market.git`
+   git clone git@github.com:NaoyaNoro/coachtech-market.git
    ```
 3. DockerDesktopアプリを立ち上げる
 4. dockerをビルドする<br>
    ```
-   docker-compose up -d --build`
+   docker-compose up -d --build
    ```
->3を実行するときに，`no matching manifest for linux/arm64/v8 in the manifest list entries` というようなエラーが出ることがあります。この場合，docker-compose.ymlのmysqlサービスとphp myadminのサービスの箇所に `platform: linux/amd64` というような表記を追加してください
+>3を実行するときに，`no matching manifest for linux/arm64/v8 in the manifest list entries` というようなエラーが出ることがあります。この場合，docker-compose.ymlのmysqlサービスとphp myadminのサービスの箇所に `platform: linux/amd64` というような表記を追加してください。
 
 ## Laravel環境構築
 1. PHPコンテナ内にログインする
@@ -99,7 +99,7 @@
    ```
    docker run --name mailhog -d --platform linux/amd64 -p 1025:1025 -p 8025:8025 mailhog/mailhog
    ```
-2. env.に環境変数の修正
+2. env.の環境変数を修正
    ```
    MAIL_MAILER=smtp
    MAIL_HOST=host.docker.internal
