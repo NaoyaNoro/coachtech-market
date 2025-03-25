@@ -67,7 +67,7 @@
    STRIPE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxxxxxx
    STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxxxxxx
    ```
-3. `config/services.php`にStripeの設定を追加
+3. `config/services.php`にStripeの設定を追加(今回は記載済み)
    ```
    'stripe' => [
     'key' => env('STRIPE_KEY'),
@@ -88,7 +88,7 @@
    ```
    composer require stripe/stripe-php
    ```
-7. 支払い方法を選択後，`購入する`ボタンを押す
+7. 商品購入画面にて，支払い方法を選択後，`購入する`ボタンを押す
 8. Stripeのテストカードで支払い
    ```
    カード番号: 4242 4242 4242 4242
@@ -123,7 +123,7 @@
    php artisan cache:clear
    php artisan config:cache
    ```
-5. `認証はこちらから`というボタンを押すと，MailHogのページに遷移するので，そこで`Verify Email Address`をクリックする
+5. 会員登録後，`認証はこちらから`というボタンを押すと，MailHogのページに遷移するので，そこで`Verify Email Address`をクリックする
 6. ページ遷移後`Verify Email Address`というボタンを押すと，メール認証が行われて，プロフィール設定画面に遷移する
 ## 単体テストの設定
 1. MySQLコンテナ内にログインする
@@ -144,7 +144,7 @@
    GRANT ALL PRIVILEGES ON demo_test.* TO 'laravel_user'@'%';
    FLUSH PRIVILEGES;
    ```
-7. configディレクトリ内のdatabases.phpのconnectionsに以下を追加<br>
+7. configディレクトリ内のdatabases.phpのconnectionsに以下を追加(今回は記載済み)<br>
    ```
    'mysql_test' => [
             'driver' => 'mysql',
@@ -191,12 +191,12 @@
     ```
     export $(grep -v '^#' .env.testing | xargs)
     ```
-13. 設定キャッシュのクリア
+13. キャッシュのクリア
     ```
     php artisan config:clear
     php artisan cache:clear
     ```
-14. phpunit.xmlのphp箇所に以下を追加
+14. phpunit.xmlのphp箇所に以下を追加(今回は記載済み)
     ```
     <env name="APP_ENV" value="testing"/>
     <env name="DB_CONNECTION" value="mysql_test"/>
@@ -207,7 +207,7 @@
     ```
     php artisan migrate --env=testing
     ```
->`php artisan key:generate --env=testing`を実行してもアプリケーションキーがうまく作成できないときがあります。その場合は，`php artisan key:generate --show`で手動でアプリケーションキーを作成して，`APP_KEY=`の後に表記してください。
+> 9で`php artisan key:generate --env=testing`を実行してもアプリケーションキーがうまく作成できないときがあります。その場合は，`php artisan key:generate --show`で手動でアプリケーションキーを作成して，`APP_KEY=`の後に表記してください。
 
 ## 単体テストの実施
 1. テスト項目一覧
@@ -243,7 +243,7 @@
    ```
    export $(grep -v '^#' .env | xargs)
    ```
-4. 設定キャッシュのクリア
+4. キャッシュのクリア
     ```
     php artisan config:clear
     php artisan cache:clear
@@ -327,7 +327,7 @@
     ```
     docker-compose exec php bash
     ```
-12. 設定キャッシュのクリア
+12. キャッシュのクリア
     ```
     php artisan config:clear
     php artisan cache:clear
@@ -340,12 +340,12 @@
     ```
     export $(grep -v '^#' .env | xargs)
     ```
-15. 設定キャッシュのクリア
+15. キャッシュのクリア
     ```
     php artisan config:clear
     php artisan cache:clear
     ```
->`php artisan key:generate --env=dusk`を実行してもアプリケーションキーがうまく作成できないときがあります。その場合は，`php artisan key:generate --show`で手動でアプリケーションキーを作成して，`APP_KEY=`の後に表記してください。
+>　7で`php artisan key:generate --env=dusk`を実行してもアプリケーションキーがうまく作成できないときがあります。その場合は，`php artisan key:generate --show`で手動でアプリケーションキーを作成して，`APP_KEY=`の後に表記してください。
 
 ## 諸注意
 * 基本設計書(生徒様入力用)のバリデーションのところで，運営様と相談の上，変更しています。AddressRequest.phpとProfileRequest.phpが分離されており，意図がわからない仕様になっておりました。コーチとも相談の上，AddressRequest.php一つに統合しています。つまりプロフィール画像に関するバリデーションもAddressRequest.phpにまとめてあります。
