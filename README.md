@@ -321,7 +321,7 @@
    ```
 10. 再度dockerをビルドする
     ```
-   docker-compose up -d --build
+    docker-compose up -d --build
     ```
 11. PHPコンテナ内にログインする 
     ```
