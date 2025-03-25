@@ -311,32 +311,36 @@
    ```
    php artisan key:generate --env=dusk
    ```
-8. dockerを一度停止する
+8. コンテナを出る
+   ```
+   exit
+   ```
+9. dockerを一度停止する
    ```
    docker-compose down
    ```
-9. 再度dockerをビルドする
+10. 再度dockerをビルドする
     ```
    docker-compose up -d --build
     ```
-10. PHPコンテナ内にログインする 
+11. PHPコンテナ内にログインする 
     ```
     docker-compose exec php bash
     ```
-11. 設定キャッシュのクリア
+12. 設定キャッシュのクリア
     ```
     php artisan config:clear
     php artisan cache:clear
     ```
-12. 支払い方法選択機能のテストを行う
+13. 支払い方法選択機能のテストを行う
     ```
     php artisan dusk --filter=PurchaseMethodTest
     ```
-13. テスト終了後，本番環境への切り替え
+14. テスト終了後，本番環境への切り替え
     ```
     export $(grep -v '^#' .env | xargs)
     ```
-14. 設定キャッシュのクリア
+15. 設定キャッシュのクリア
     ```
     php artisan config:clear
     php artisan cache:clear
