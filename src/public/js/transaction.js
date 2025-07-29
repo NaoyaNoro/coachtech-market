@@ -18,17 +18,6 @@ document.getElementById('image').addEventListener('change', function (event) {
     }
 });
 
-// document.getElementById('messageInput').addEventListener('input', function () {
-//     localStorage.setItem('savedMessage', this.value);
-// });
-
-
-// window.addEventListener('DOMContentLoaded', function () {
-//     const saved = localStorage.getItem('savedMessage');
-//     if (saved) {
-//         document.getElementById('messageInput').value = saved;
-//     }
-// });
 document.addEventListener('DOMContentLoaded', function () {
     const input = document.getElementById('messageInput');
     if (!input) return;

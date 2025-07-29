@@ -20,17 +20,7 @@ class TransactionsTableSeeder extends Seeder
                 'product_id' => 1,
                 'buyer_id'=>2,
                 'seller_id'=>1
-            ],
-            [
-                'product_id' => 2,
-                'buyer_id' => 3,
-                'seller_id' => 1
-            ],
-            [
-                'product_id' => 3,
-                'buyer_id' => 3,
-                'seller_id' => 1
-            ],
+            ]
         ];
         foreach ($transactions as $transaction) {
             DB::table('transactions')->insert($transaction);
