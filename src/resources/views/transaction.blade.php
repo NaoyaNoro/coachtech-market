@@ -79,34 +79,6 @@
                     <img src="{{ asset('storage/img/chat/' . optional($chat)->image) }}" class="chat__image">
                     @endif
                     <!-- 編集 -->
-                    <!-- <div class="chat__edit-wrapper">
-                        <form action="/chat/edit/{{$chat->id}}" class="chat__edit" method="post">
-                            @csrf
-                            @method('PATCH')
-                            <textarea name="message" class="chat__edit-textarea" {{ $chat->isSender ? '' : 'readonly' }}>{{ $chat->message}}</textarea>
-
-                            <input type="hidden" name="transaction_id" value="{{ $transaction->id }}">
-
-                            @if($chat->isSender)
-                            <button class="edit__chat-button" type="submit">
-                                編集
-                            </button>
-                            @endif
-                        </form>
-
-                        @if($chat->isSender)
-                        <form action="/chat/delete/{{$chat->id}}" class="chat__delete" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <input type="hidden" name="transaction_id" value="{{ $transaction->id }}">
-
-                            <button class="delete__chat-button" type="submit">
-                                削除
-                            </button>
-                        </form>
-                        @endif
-                    </div> -->
-
                     <form action="/chat/action/{{$chat->id}}" method="POST">
                         @csrf
                         @method('POST')

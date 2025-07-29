@@ -322,3 +322,12 @@
     cursor: pointer;
 }
 
+@media (max-width: 900px) {
+    .transaction__sidbar h2 {
+        font-size: 20px;
+    }
+
+    .another__transaction {
+        font-size: 18px;
+    }
+}

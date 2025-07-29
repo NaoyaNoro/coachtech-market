@@ -25,7 +25,7 @@ class ProductController extends Controller
 
         session(['search_name' => $search_name, 'search_results' => $search_results]);
 
-        return redirect('/'); 
+        return redirect('/');
     }
 
     public function index(Request $request)

@@ -87,16 +87,6 @@ class UserController extends Controller
         ->orWhere('buyer_id',$user_id)
         ->pluck('id');
 
-        // $completeTransactions=Transaction::where('buyer_id',$user_id )
-        // ->orWhere('seller_id', $user_id)
-        // ->where('status', 'completed')->get();
-
-        // foreach($completeTransactions as $completeTransaction){
-        //     $isSender=Value::where('transaction_id',$completeTransaction->id)
-        //     ->where('sender_id',$user_id)->exists();
-        //     $completeTransaction->sender = $isSender;
-        // }
-
         $completeTransactionIds=Value::where('sender_id',$user_id)
         ->pluck('transaction_id')
         ->toArray();

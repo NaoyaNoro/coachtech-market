@@ -94,14 +94,6 @@ class ChatController extends Controller
 
     public function make_transaction(Request $request)
     {
-        // $action=$request->input('action');
-        // if($action==='edit'){
-        //     Chat::find($request->chat_id)->update([
-        //         'message'=> $request->message,
-        //     ]);
-        // }elseif($action==='delete'){
-        //     Chat::find($request->chat_id)->delete();
-        // }
         $transaction=Transaction::create([
             'product_id'=>$request->product_id,
             'buyer_id'=>auth()->id(),
