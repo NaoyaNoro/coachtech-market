@@ -55,7 +55,7 @@ class ChatController extends Controller
 
         $isValued=$transaction->values->where('sender_id',auth()->id())->isEmpty();
 
-        return view('transaction',compact('transaction','myUser','anotherUser','anotherTransactions', 'isSeller','product','chats','isCompleted','isValued'));
+        return view('transaction',compact('user_id','transaction','myUser','anotherUser','anotherTransactions', 'isSeller','product','chats','isCompleted','isValued'));
     }
 
     public function send_chat(ChatRequest $request)

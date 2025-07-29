@@ -23,7 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!input) return;
 
     const transactionId = input.dataset.transactionId;
-    const storageKey = `savedMessage-${transactionId}`;
+    const userId = input.dataset.userId;
+
+    const storageKey = `savedMessage-${transactionId}-${userId}`;
 
     const saved = localStorage.getItem(storageKey);
     if (saved) {

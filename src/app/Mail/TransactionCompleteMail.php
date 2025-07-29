@@ -8,7 +8,6 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Transaction;
 use App\Models\User;
-use App\Models\Value;
 
 class TransactionCompleteMail extends Mailable
 {
@@ -32,15 +31,13 @@ class TransactionCompleteMail extends Mailable
     protected Transaction $transaction;
     protected int $value;
     protected int $sender_id;
-    protected int $receiver_id;
 
-    public function __construct(Transaction $transaction, int $value, int $sender_id, int $receiver_id)
+
+    public function __construct(Transaction $transaction, int $value, int $sender_id)
     {
         $this->transaction = $transaction;
         $this->value = $value;
         $this->sender_id = $sender_id;
-        $this->receiver_id = $receiver_id;
-
     }
 
     /**

@@ -41,7 +41,7 @@ class ValueController extends Controller
         ]);
 
         Mail::to(User::find($receiver_id)->email)->send(
-            new TransactionCompleteMail($transaction, $value, $sender_id, $receiver_id)
+            new TransactionCompleteMail($transaction, $value, $sender_id)
         );
 
         return redirect('/');
