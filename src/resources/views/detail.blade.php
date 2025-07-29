@@ -80,6 +80,22 @@
                 <a href="/purchase/{{ $product->id }}" class="detail-form__link">
                     購入手続きへ
                 </a>
+                @if($isCompletedTransaction)
+                <a href="javascript:void(0);" class="transaction-form__link {{$isCompletedTransaction ?'sold-out':''}}">
+                    取引済みです
+                </a>
+                @elseif($isTransaction)
+                <a href="javascript:void(0);" class="transaction-form__link {{$isTransaction ?'sold-out':''}}">
+                    取引中です
+                </a>
+                @else
+                <form action="/make/transaction" method="POST">
+                    @csrf
+                    <input type="hidden" value="{{ $product->id }}" name="product_id">
+                    <input type="hidden" value="{{ $seller_id }}" name="seller_id">
+                    <button class="transaction-form__link">取引へ</button>
+                </form>
+                @endif
                 @endif
             </div>
             <div class="detail__info">

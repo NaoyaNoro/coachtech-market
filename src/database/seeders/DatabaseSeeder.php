@@ -20,7 +20,10 @@ class DatabaseSeeder extends Seeder
             MyListsTableSeeder::class,
             Category_ProductTableSeeder::class,
             CommentsTableSeeder::class,
-            ProfilesTableSeeder::class
+            ProfilesTableSeeder::class,
+            TransactionsTableSeeder::class,
+            ChatsTableSeeder::class,
+            SellTableSeeder::class
         ]);
     }
 }

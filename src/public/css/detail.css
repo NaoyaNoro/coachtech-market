@@ -78,7 +78,7 @@
     width: 50%;
 }
 
-.detail-form__link{
+.detail-form__link,.transaction-form__link{
     display: inline-block;
     width: 100%;
     background-color: #FF5555;
@@ -90,8 +90,17 @@
     border-radius: 3px;
 }
 
-.detail-form__link.sold-out{
+.transaction-form__link{
+    background-color: #4A90E2;
+    border: #4A90E2 1px solid;
+    margin-top: 20px;
+}
+
+
+
+.sold-out{
     background-color: #a0a0a0;
+    border: #a0a0a0 1px solid;
 }
 
 .info__ttl,.comment__ttl{

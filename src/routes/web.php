@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ValueController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
@@ -69,5 +71,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //  出品関連
     Route::get('/sell', [SellController::class, 'sell']);
     Route::post('/sell', [SellController::class, 'put_up']);
+
+    //chat機能
+    Route::get('/chat/{transaction_id}', [ChatController::class, 'transaction']);
+
+    //chat送信
+    Route::post('/send/chat', [ChatController::class, 'send_chat']);
+
+    // Route::patch('/chat/edit/{chat_id}', [ChatController::class, 'edit_chat']);
+
+    // Route::delete('/chat/delete/{chat_id}', [ChatController::class, 'delete_chat']);
+
+    //chatの編集
+    Route::post('/chat/action/{chat_id}', [ChatController::class, 'chat_edit']);
+
+    //評価の送信
+    Route::post('/value', [ValueController::class, 'send_value']);
+
+    //取引へ
+    Route::post('/make/transaction', [ChatController::class, 'make_transaction']);
 });
 

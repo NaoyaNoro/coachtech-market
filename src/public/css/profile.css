@@ -46,7 +46,7 @@
 .tab__navigation{
     display: flex;
     justify-content: space-around;
-    width: 40%;
+    width: 50%;
 }
 
 .tab__button{
@@ -106,6 +106,62 @@
 .product__grid {
     display: contents;
 }
+
+.product__item{
+    position: relative;
+}
+
+.product__item--link{
+    text-decoration: none;
+}
+
+.unread__message {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.sum-unread__message {
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
+    padding: 2px;
+}
+
+/* 評価 */
+
+.user__value{
+    font-size: 20px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.active{
+    color: gold;
+}
+
+.product__item--link.complete img{
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+
+
 
 @media (max-width: 1400px) {
     .product__list {
